@@ -9,26 +9,30 @@ template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
 
 static float gravity = 100;
-static float space = 800;
+static float space = 500;
 static float radius = 5;
-static int bodies = 20;
-static float elapse = 0.001;
+static int bodies = 100;
+static float elapse = 0.02;
 static float max_mass = 50;
 BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
 
 void *worker(void *data)
 {
     size_t i = reinterpret_cast<size_t>(data);
+    auto i_body = pool.get_body(i);
     for (size_t j = i + 1; j < pool.size(); ++j)
     {
+        // pool.get_body(j).lock();
         pool.check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+        // pool.get_body(j).unlock();
     }
     pool.get_body(i).update_for_tick(elapse, space, radius);
     return nullptr;
 }
 void schedule()
 {
-    std::vector<pthread_t> threads(pool.size());
+    size_t threads_size = pool.size();
+    std::vector<pthread_t> threads(threads_size);
     pool.clear_acceleration();
     for (size_t i = 0; i < threads.size(); i++)
     {
@@ -47,7 +51,6 @@ int main(int argc, char **argv)
     static float current_space = space;
     static float current_max_mass = max_mass;
     static int current_bodies = bodies;
-    BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
     graphic::GraphicContext context{"Assignment 2"};
     context.run([&](graphic::GraphicContext *context [[maybe_unused]], SDL_Window *)
                 {
@@ -63,7 +66,7 @@ int main(int argc, char **argv)
                     ImGui::DragFloat("Gravity", &gravity, 0.5, 0, 1000, "%f");
                     ImGui::DragFloat("Radius", &radius, 0.5, 2, 20, "%f");
                     ImGui::DragFloat("Elapse", &elapse, 0.001, 0.001, 10, "%f");
-                    ImGui::DragInt("Bodies", &current_bodies, 1, 2, 100, "%d");
+                    ImGui::DragInt("Bodies", &current_bodies, 1, 2, 2000, "%d");
                     ImGui::DragFloat("Max Mass", &current_max_mass, 0.5, 5, 100, "%f");
                     ImGui::ColorEdit4("Color", &color.x);
                     if (current_space != space || current_bodies != bodies || current_max_mass != max_mass)
@@ -84,6 +87,5 @@ int main(int argc, char **argv)
                             draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                         }
                     }
-                    ImGui::End();
-                });
+                    ImGui::End(); });
 }
