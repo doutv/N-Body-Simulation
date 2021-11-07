@@ -189,55 +189,6 @@ public:
             get_y() += get_vy() * elapse;
             handle_wall_collision(position_range, radius);
         }
-
-        /*
-        void mpi_handle_wall_collision(double position_range, double radius)
-        {
-            bool flag = false;
-            if (get_x() <= radius)
-            {
-                flag = true;
-                get_x() = radius + radius * COLLISION_RATIO;
-                get_vx() = -get_vx();
-            }
-            else if (get_x() >= position_range - radius)
-            {
-                flag = true;
-                get_x() = position_range - radius - radius * COLLISION_RATIO;
-                get_vx() = -get_vx();
-            }
-
-            if (get_y() <= radius)
-            {
-                flag = true;
-                get_y() = radius + radius * COLLISION_RATIO;
-                get_vy() = -get_vy();
-            }
-            else if (get_y() >= position_range - radius)
-            {
-                flag = true;
-                get_y() = position_range - radius - radius * COLLISION_RATIO;
-                get_vy() = -get_vy();
-            }
-            if (flag)
-            {
-                get_ax() = 0;
-                get_ay() = 0;
-            }
-        }
-
-        void mpi_update_for_tick(
-            double elapse,
-            double position_range,
-            double radius)
-        {
-            get_dvx() += get_ax() * elapse;
-            get_dvy() += get_ay() * elapse;
-            get_dx() += get_vx() * elapse;
-            get_dy() += get_vy() * elapse;
-            mpi_handle_wall_collision(position_range, radius);
-        }
-        */
     };
 
     BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
