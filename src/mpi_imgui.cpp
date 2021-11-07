@@ -7,55 +7,41 @@
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
 
-void root_schedule(double elapse,
-                   double gravity,
-                   double space,
-                   double radius,
-                   double max_mass,
-                   int bodies,
-                   BodyPool &pool)
+static float gravity = 100;
+static float space = 800;
+static float radius = 5;
+static int bodies = 200;
+static float elapse = 0.02;
+static float max_mass = 50;
+BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
+
+void worker(int rank, int world_size)
 {
-    MPI_Bcast(&elapse, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&gravity, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&space, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&radius, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&max_mass, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&bodies, 1, MPI_INT, 0, MPI_COMM_WORLD);
-
-    MPI_Bcast(pool.x.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.y.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.vx.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.vy.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.ax.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.ay.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(pool.m.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
-    // Step 1: merge data
-    // MPI_Reduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm)
-    double dx, dy, dvx, dvy, dax, day;
-    MPI_Reduce(pool.dx.data(), &dx, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dy.data(), &dy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dvx.data(), &dvx, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dvy.data(), &dvy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dax.data(), &dax, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.day.data(), &day, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-}
-
-void worker(int rank, int world_size, BodyPool &pool)
-{
-    double elapse;
-    double gravity;
-    double space;
-    double radius;
-    double max_mass;
-    int bodies;
-    MPI_Bcast(&elapse, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&gravity, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&space, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&radius, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&max_mass, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&bodies, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    pool = BodyPool{static_cast<size_t>(bodies), space, max_mass};
+    double local_elapse;
+    double local_gravity;
+    double local_space;
+    double local_radius;
+    double local_max_mass;
+    int local_bodies;
+    if (rank == 0)
+    {
+        local_elapse = elapse;
+        local_gravity = gravity;
+        local_space = space;
+        local_radius = radius;
+        local_max_mass = max_mass;
+        local_bodies = bodies;
+    }
+    MPI_Bcast(&local_elapse, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&local_gravity, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&local_space, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&local_radius, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&local_max_mass, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&local_bodies, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    if (rank != 0)
+    {
+        pool = BodyPool{static_cast<size_t>(local_bodies), local_space, local_max_mass};
+    }
 
     MPI_Bcast(pool.x.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(pool.y.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -68,31 +54,60 @@ void worker(int rank, int world_size, BodyPool &pool)
     // Step 1
     pool.mpi_init_delta_vector();
     int elements_per_process = pool.size() / world_size;
-    int st_idx = elements_per_process * rank;
-    int end_idx = st_idx + elements_per_process;
+    size_t st_idx = elements_per_process * rank;
+    size_t end_idx = st_idx + elements_per_process;
     if (rank == world_size - 1)
         end_idx = pool.size();
-    for (int i = st_idx; i < end_idx; i++)
+    for (size_t i = st_idx; i < end_idx; i++)
     {
-        for (int j = i + 1; j < pool.size(); j++)
+        for (size_t j = i + 1; j < pool.size(); j++)
         {
-            pool.check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+            pool.mpi_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
         }
     }
-    // reduce delta vector to the root process
-    // MPI_Reduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm)
-    double dx, dy, dvx, dvy, dax, day;
-    MPI_Reduce(pool.dx.data(), &dx, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dy.data(), &dy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dvx.data(), &dvx, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dvy.data(), &dvy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.dax.data(), &dax, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(pool.day.data(), &day, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    // reduce delta vectors and send them to all processes
+    // MPI_Allreduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
+    MPI_Allreduce(MPI_IN_PLACE, pool.dx.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, pool.dy.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, pool.dvx.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, pool.dvy.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, pool.dax.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, pool.day.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     // Step 2
-    for (int i = st_idx; i < end_idx; i++)
+    for (size_t i = st_idx; i < end_idx; i++)
     {
-        pool.get_body(i).update_for_tick(elapse, space, radius);
+        pool.get_body(i).get_x() += pool.get_body(i).get_dx();
+        pool.get_body(i).get_y() += pool.get_body(i).get_dy();
+        pool.get_body(i).get_vx() += pool.get_body(i).get_dvx();
+        pool.get_body(i).get_vy() += pool.get_body(i).get_dvy();
+        pool.get_body(i).get_ax() += pool.get_body(i).get_dax();
+        pool.get_body(i).get_ay() += pool.get_body(i).get_day();
+        pool.get_body(i).update_for_tick(local_elapse, local_space, local_radius);
     }
+
+    // Gather bodies data
+    std::vector<int> recvcounts;
+    std::vector<int> displs;
+    int sendcount = end_idx - st_idx;
+    if (rank == 0)
+    {
+        recvcounts.resize(world_size, elements_per_process);
+        recvcounts.back() = pool.size() % world_size + elements_per_process;
+        displs.resize(world_size, 0);
+        for (size_t i = 1; i < displs.size(); i++)
+        {
+            displs[i] = displs[i - 1] + recvcounts[i - 1];
+        }
+    }
+    // MPI_Gatherv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
+    //             void *recvbuf, const int *recvcounts, const int *displs,
+    //             MPI_Datatype recvtype, int root, MPI_Comm comm)
+    MPI_Gatherv(pool.x.data() + st_idx, sendcount, MPI_DOUBLE, pool.x.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(pool.y.data() + st_idx, sendcount, MPI_DOUBLE, pool.y.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(pool.vx.data() + st_idx, sendcount, MPI_DOUBLE, pool.vx.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(pool.vy.data() + st_idx, sendcount, MPI_DOUBLE, pool.vy.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(pool.ax.data() + st_idx, sendcount, MPI_DOUBLE, pool.ax.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(pool.ay.data() + st_idx, sendcount, MPI_DOUBLE, pool.ay.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 }
 
 int main(int argc, char **argv)
@@ -102,14 +117,7 @@ int main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     UNUSED(argc, argv);
-    static float gravity = 100;
-    static float space = 800;
-    static float radius = 5;
-    static int bodies = 200;
-    static float elapse = 0.001;
     static ImVec4 color = ImVec4(1.0f, 1.0f, 0.4f, 1.0f);
-    static float max_mass = 50;
-    BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
     if (rank == 0)
     {
         static float current_space = space;
@@ -142,7 +150,7 @@ int main(int argc, char **argv)
                         }
                         {
                             const ImVec2 p = ImGui::GetCursorScreenPos();
-                            root_schedule(elapse, gravity, space, radius, max_mass, bodies, pool);
+                            worker(rank, world_size);
                             for (size_t i = 0; i < pool.size(); ++i)
                             {
                                 auto body = pool.get_body(i);
@@ -158,7 +166,7 @@ int main(int argc, char **argv)
     {
         while (1)
         {
-            worker(rank, world_size, pool);
+            worker(rank, world_size);
         }
     }
     MPI_Finalize();

@@ -19,7 +19,6 @@ BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
 void *worker(void *data)
 {
     size_t i = reinterpret_cast<size_t>(data);
-    auto i_body = pool.get_body(i);
     for (size_t j = i + 1; j < pool.size(); ++j)
     {
         // pool.get_body(j).lock();
