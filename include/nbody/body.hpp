@@ -23,6 +23,12 @@ public:
     // if after the collision, we do not separate the bodies a little bit, it may
     // results in strange outcomes like infinite acceleration.
     // hence, we will need to set up a ratio for separation.
+    std::vector<double> dx;
+    std::vector<double> dy;
+    std::vector<double> dvx;
+    std::vector<double> dvy;
+    std::vector<double> dax;
+    std::vector<double> day;
     static constexpr double COLLISION_RATIO = 0.01;
 
     class Body
@@ -77,6 +83,36 @@ public:
         double &get_m()
         {
             return pool.m[index];
+        }
+
+        double &get_dx()
+        {
+            return pool.dx[index];
+        }
+
+        double &get_dy()
+        {
+            return pool.dy[index];
+        }
+
+        double &get_dvx()
+        {
+            return pool.dvx[index];
+        }
+
+        double &get_dvy()
+        {
+            return pool.dvy[index];
+        }
+
+        double &get_dax()
+        {
+            return pool.dax[index];
+        }
+
+        double &get_day()
+        {
+            return pool.day[index];
         }
 
         double distance_square(Body &that)
@@ -149,11 +185,59 @@ public:
         {
             get_vx() += get_ax() * elapse;
             get_vy() += get_ay() * elapse;
-            handle_wall_collision(position_range, radius);
             get_x() += get_vx() * elapse;
             get_y() += get_vy() * elapse;
             handle_wall_collision(position_range, radius);
         }
+
+        /*
+        void mpi_handle_wall_collision(double position_range, double radius)
+        {
+            bool flag = false;
+            if (get_x() <= radius)
+            {
+                flag = true;
+                get_x() = radius + radius * COLLISION_RATIO;
+                get_vx() = -get_vx();
+            }
+            else if (get_x() >= position_range - radius)
+            {
+                flag = true;
+                get_x() = position_range - radius - radius * COLLISION_RATIO;
+                get_vx() = -get_vx();
+            }
+
+            if (get_y() <= radius)
+            {
+                flag = true;
+                get_y() = radius + radius * COLLISION_RATIO;
+                get_vy() = -get_vy();
+            }
+            else if (get_y() >= position_range - radius)
+            {
+                flag = true;
+                get_y() = position_range - radius - radius * COLLISION_RATIO;
+                get_vy() = -get_vy();
+            }
+            if (flag)
+            {
+                get_ax() = 0;
+                get_ay() = 0;
+            }
+        }
+
+        void mpi_update_for_tick(
+            double elapse,
+            double position_range,
+            double radius)
+        {
+            get_dvx() += get_ax() * elapse;
+            get_dvy() += get_ay() * elapse;
+            get_dx() += get_vx() * elapse;
+            get_dy() += get_vy() * elapse;
+            mpi_handle_wall_collision(position_range, radius);
+        }
+        */
     };
 
     BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
@@ -251,6 +335,57 @@ public:
         for (size_t i = 0; i < size(); ++i)
         {
             get_body(i).update_for_tick(elapse, position_range, radius);
+        }
+    }
+
+    void mpi_init_delta_vector()
+    {
+        dx.resize(size(), 0);
+        dy.resize(size(), 0);
+        dvx.resize(size(), 0);
+        dvy.resize(size(), 0);
+        dax.resize(size(), 0);
+        day.resize(size(), 0);
+    }
+
+    static void mpi_check_and_update(Body i, Body j, double radius, double gravity)
+    {
+        auto delta_x = i.delta_x(j);
+        auto delta_y = i.delta_y(j);
+        auto distance_square = i.distance_square(j);
+        auto ratio = 1 + COLLISION_RATIO;
+        if (distance_square < radius * radius)
+        {
+            distance_square = radius * radius;
+        }
+        auto distance = i.distance(j);
+        if (distance < radius)
+        {
+            distance = radius;
+        }
+        if (i.collide(j, radius))
+        {
+            auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
+            auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
+            i.get_dvx() -= scalar * delta_x * j.get_m();
+            i.get_dvy() -= scalar * delta_y * j.get_m();
+            j.get_dvx() += scalar * delta_x * i.get_m();
+            j.get_dvy() += scalar * delta_y * i.get_m();
+            // now relax the distance a bit: after the collision, there must be
+            // at least (ratio * radius) between them
+            i.get_dx() += delta_x / distance * ratio * radius / 2.0;
+            i.get_dy() += delta_y / distance * ratio * radius / 2.0;
+            j.get_dx() -= delta_x / distance * ratio * radius / 2.0;
+            j.get_dy() -= delta_y / distance * ratio * radius / 2.0;
+        }
+        else
+        {
+            // update acceleration only when no collision
+            auto scalar = gravity / distance_square / distance;
+            i.get_dax() -= scalar * delta_x * j.get_m();
+            i.get_day() -= scalar * delta_y * j.get_m();
+            j.get_dax() += scalar * delta_x * i.get_m();
+            j.get_day() += scalar * delta_y * i.get_m();
         }
     }
 };

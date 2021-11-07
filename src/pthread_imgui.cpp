@@ -9,9 +9,9 @@ template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
 
 static float gravity = 100;
-static float space = 500;
+static float space = 800;
 static float radius = 5;
-static int bodies = 100;
+static int bodies = 200;
 static float elapse = 0.02;
 static float max_mass = 50;
 BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
@@ -87,5 +87,6 @@ int main(int argc, char **argv)
                             draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                         }
                     }
-                    ImGui::End(); });
+                    ImGui::End();
+                });
 }
