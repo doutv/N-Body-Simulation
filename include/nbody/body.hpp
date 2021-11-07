@@ -9,6 +9,7 @@
 
 class BodyPool
 {
+public:
     // provides in this way so that
     // it is easier for you to send a the vector with MPI
     std::vector<double> x;
@@ -24,7 +25,6 @@ class BodyPool
     // hence, we will need to set up a ratio for separation.
     static constexpr double COLLISION_RATIO = 0.01;
 
-public:
     class Body
     {
         size_t index;
@@ -156,6 +156,7 @@ public:
         }
     };
 
+    BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
     BodyPool(size_t size, double position_range, double mass_range) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size)
     {
         std::random_device device;
