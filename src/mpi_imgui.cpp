@@ -92,7 +92,7 @@ void worker(int rank, int world_size)
     if (rank == 0)
     {
         recvcounts.resize(world_size, elements_per_process);
-        recvcounts.back() = pool.size() % world_size + elements_per_process;
+        recvcounts.back() += pool.size() % world_size;
         displs.resize(world_size, 0);
         for (size_t i = 1; i < displs.size(); i++)
         {
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
                         ImGui::DragFloat("Space", &current_space, 10, 200, 1600, "%f");
                         ImGui::DragFloat("Gravity", &gravity, 0.5, 0, 1000, "%f");
                         ImGui::DragFloat("Radius", &radius, 0.5, 2, 20, "%f");
-                        ImGui::DragInt("Bodies", &current_bodies, 1, 2, 100, "%d");
+                        ImGui::DragInt("Bodies", &current_bodies, 1, 2, 1000, "%d");
                         ImGui::DragFloat("Elapse", &elapse, 0.001, 0.001, 10, "%f");
                         ImGui::DragFloat("Max Mass", &current_max_mass, 0.5, 5, 100, "%f");
                         ImGui::ColorEdit4("Color", &color.x);
