@@ -32,7 +32,7 @@ get_filename_component(FONT_PATH imgui/misc/fonts/DroidSans.ttf ABSOLUTE)
 target_link_libraries(core PUBLIC
         Freetype::Freetype SDL2::SDL2 OpenGL::GL ${CMAKE_DL_LIBS} Threads::Threads ${MPI_CXX_LIBRARIES})
 
-add_executable(template src/graphic.cpp src/main.cpp)
+add_executable(template src/graphic.cpp src/template.cpp)
 target_link_libraries(template core)
 target_compile_options(template PRIVATE -Werror -Wall -Wextra -Wpedantic)
 target_compile_definitions(core PUBLIC -DImDrawIdx=unsigned)
