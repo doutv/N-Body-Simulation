@@ -4,8 +4,20 @@
 #include <nbody/body.hpp>
 #include <mpi.h>
 
+// #define DEBUG
+
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
+
+template <typename Container>
+void printVector(const Container &cont)
+{
+    for (auto const &x : cont)
+    {
+        std::cout << x << " ";
+    }
+    std::cout << '\n';
+}
 
 static float gravity = 100;
 static float space = 800;
@@ -38,7 +50,10 @@ void worker(int rank, int world_size)
     MPI_Bcast(&local_radius, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(&local_max_mass, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(&local_bodies, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (rank != 0)
+    if (rank == 0)
+    {
+    }
+    else
     {
         pool = BodyPool{static_cast<size_t>(local_bodies), local_space, local_max_mass};
     }
@@ -52,12 +67,17 @@ void worker(int rank, int world_size)
     MPI_Bcast(pool.m.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Step 1
+    pool.clear_acceleration();
     pool.mpi_init_delta_vector();
     int elements_per_process = pool.size() / world_size;
     size_t st_idx = elements_per_process * rank;
     size_t end_idx = st_idx + elements_per_process;
+#ifdef DEBUG
+    printf("rank %d: st_idx %zu: end_idx %zu\n", rank, st_idx, end_idx);
+#endif
     if (rank == world_size - 1)
         end_idx = pool.size();
+
     for (size_t i = st_idx; i < end_idx; i++)
     {
         for (size_t j = i + 1; j < pool.size(); j++)
@@ -99,6 +119,15 @@ void worker(int rank, int world_size)
             displs[i] = displs[i - 1] + recvcounts[i - 1];
         }
     }
+#ifdef DEBUG
+    printf("rank: %d\n", rank);
+    printVector(pool.vx);
+    printVector(pool.vy);
+    printVector(pool.ax);
+    printVector(pool.ay);
+    // printVector(recvcounts);
+    // printVector(displs);
+#endif
     // MPI_Gatherv(const void *sendbuf, int sendcount, MPI_Datatype sendtype,
     //             void *recvbuf, const int *recvcounts, const int *displs,
     //             MPI_Datatype recvtype, int root, MPI_Comm comm)
@@ -159,8 +188,7 @@ int main(int argc, char **argv)
                                 draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                             }
                         }
-                        ImGui::End();
-                    });
+                        ImGui::End(); });
     }
     else
     {
