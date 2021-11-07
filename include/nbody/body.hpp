@@ -185,6 +185,7 @@ public:
         {
             get_vx() += get_ax() * elapse;
             get_vy() += get_ay() * elapse;
+            handle_wall_collision(position_range, radius);
             get_x() += get_vx() * elapse;
             get_y() += get_vy() * elapse;
             handle_wall_collision(position_range, radius);
