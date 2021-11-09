@@ -2,7 +2,6 @@
 #include <imgui_impl_sdl.h>
 #include <cstring>
 #include <nbody/body.hpp>
-#include <pthread.h>
 #include <vector>
 
 template <typename... Args>

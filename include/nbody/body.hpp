@@ -46,10 +46,12 @@ public:
         {
             body_mutex.lock();
         }
+
         void unlock()
         {
             body_mutex.unlock();
         }
+
         double &get_x()
         {
             return pool.x[index];
@@ -338,6 +340,42 @@ public:
             i.get_day() -= scalar * delta_y * j.get_m();
             j.get_dax() += scalar * delta_x * i.get_m();
             j.get_day() += scalar * delta_y * i.get_m();
+        }
+    }
+
+    // Only update Body i
+    static void parallel_check_and_update(Body i, Body j, double radius, double gravity)
+    {
+        auto delta_x = i.delta_x(j);
+        auto delta_y = i.delta_y(j);
+        auto distance_square = i.distance_square(j);
+        auto ratio = 1 + COLLISION_RATIO;
+        if (distance_square < radius * radius)
+        {
+            distance_square = radius * radius;
+        }
+        auto distance = i.distance(j);
+        if (distance < radius)
+        {
+            distance = radius;
+        }
+        if (i.collide(j, radius))
+        {
+            auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
+            auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
+            i.get_vx() -= scalar * delta_x * j.get_m();
+            i.get_vy() -= scalar * delta_y * j.get_m();
+            // now relax the distance a bit: after the collision, there must be
+            // at least (ratio * radius) between them
+            i.get_x() += delta_x / distance * ratio * radius / 2.0;
+            i.get_y() += delta_y / distance * ratio * radius / 2.0;
+        }
+        else
+        {
+            // update acceleration only when no collision
+            auto scalar = gravity / distance_square / distance;
+            i.get_ax() -= scalar * delta_x * j.get_m();
+            i.get_ay() -= scalar * delta_y * j.get_m();
         }
     }
 };
