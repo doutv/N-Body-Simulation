@@ -52,3 +52,8 @@ target_link_libraries(mpi_imgui core)
 add_executable(openmp_imgui src/graphic.cpp src/openmp_imgui.cpp)
 target_link_libraries(openmp_imgui core)
 target_link_libraries(openmp_imgui ${OpenMP_CXX_LIBRARIES})
+
+set(CMAKE_CXX_FLAGS "-fsanitize=thread")
+# add_executable(cuda_imgui src/graphic.cpp src/cuda_imgui.cu)
+# target_link_libraries(cuda_imgui core)
+# set_target_properties(cuda_imgui PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
