@@ -23,12 +23,6 @@ public:
     // if after the collision, we do not separate the bodies a little bit, it may
     // results in strange outcomes like infinite acceleration.
     // hence, we will need to set up a ratio for separation.
-    std::vector<double> dx;
-    std::vector<double> dy;
-    std::vector<double> dvx;
-    std::vector<double> dvy;
-    std::vector<double> dax;
-    std::vector<double> day;
     static constexpr double COLLISION_RATIO = 0.01;
 
     class Body
@@ -42,6 +36,12 @@ public:
         Body(size_t index, BodyPool &pool) : index(index), pool(pool) {}
 
     public:
+        double dx, dy, dvx, dvy;
+        void init_delta_var()
+        {
+            dx = dy = dvx = dvy = 0;
+        }
+
         void lock()
         {
             body_mutex.lock();
@@ -85,36 +85,6 @@ public:
         double &get_m()
         {
             return pool.m[index];
-        }
-
-        double &get_dx()
-        {
-            return pool.dx[index];
-        }
-
-        double &get_dy()
-        {
-            return pool.dy[index];
-        }
-
-        double &get_dvx()
-        {
-            return pool.dvx[index];
-        }
-
-        double &get_dvy()
-        {
-            return pool.dvy[index];
-        }
-
-        double &get_dax()
-        {
-            return pool.dax[index];
-        }
-
-        double &get_day()
-        {
-            return pool.day[index];
         }
 
         double distance_square(Body &that)
@@ -191,6 +161,14 @@ public:
             get_x() += get_vx() * elapse;
             get_y() += get_vy() * elapse;
             handle_wall_collision(position_range, radius);
+        }
+
+        void update_by_delta_var()
+        {
+            get_x() += dx;
+            get_y() += dy;
+            get_vx() += dvx;
+            get_vy() += dvy;
         }
     };
 
@@ -292,16 +270,6 @@ public:
         }
     }
 
-    void mpi_init_delta_vector()
-    {
-        dx.resize(size(), 0);
-        dy.resize(size(), 0);
-        dvx.resize(size(), 0);
-        dvy.resize(size(), 0);
-        dax.resize(size(), 0);
-        day.resize(size(), 0);
-    }
-
     static void mpi_check_and_update(Body i, Body j, double radius, double gravity)
     {
         auto delta_x = i.delta_x(j);
@@ -321,30 +289,24 @@ public:
         {
             auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
             auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
-            i.get_dvx() = scalar * delta_x * j.get_m();
-            i.get_dvy() = scalar * delta_y * j.get_m();
-            j.get_dvx() = scalar * delta_x * i.get_m();
-            j.get_dvy() = scalar * delta_y * i.get_m();
+            i.get_vx() = scalar * delta_x * j.get_m();
+            i.get_vy() = scalar * delta_y * j.get_m();
             // now relax the distance a bit: after the collision, there must be
             // at least (ratio * radius) between them
-            i.get_dx() = delta_x / distance * ratio * radius / 2.0;
-            i.get_dy() = delta_y / distance * ratio * radius / 2.0;
-            j.get_dx() = delta_x / distance * ratio * radius / 2.0;
-            j.get_dy() = delta_y / distance * ratio * radius / 2.0;
+            i.get_x() = delta_x / distance * ratio * radius / 2.0;
+            i.get_y() = delta_y / distance * ratio * radius / 2.0;
         }
         else
         {
             // update acceleration only when no collision
             auto scalar = gravity / distance_square / distance;
-            i.get_dax() -= scalar * delta_x * j.get_m();
-            i.get_day() -= scalar * delta_y * j.get_m();
-            j.get_dax() += scalar * delta_x * i.get_m();
-            j.get_day() += scalar * delta_y * i.get_m();
+            i.get_ax() -= scalar * delta_x * j.get_m();
+            i.get_ay() -= scalar * delta_y * j.get_m();
         }
     }
 
     // Only update Body i
-    static void parallel_check_and_update(Body i, Body j, double radius, double gravity)
+    static void shared_memory_check_and_update(Body i, Body j, double radius, double gravity)
     {
         auto delta_x = i.delta_x(j);
         auto delta_y = i.delta_y(j);
@@ -363,12 +325,12 @@ public:
         {
             auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
             auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
-            i.get_vx() -= scalar * delta_x * j.get_m();
-            i.get_vy() -= scalar * delta_y * j.get_m();
+            i.dvx -= scalar * delta_x * j.get_m();
+            i.dvy -= scalar * delta_y * j.get_m();
             // now relax the distance a bit: after the collision, there must be
             // at least (ratio * radius) between them
-            i.get_x() += delta_x / distance * ratio * radius / 2.0;
-            i.get_y() += delta_y / distance * ratio * radius / 2.0;
+            i.dx += delta_x / distance * ratio * radius / 2.0;
+            i.dy += delta_y / distance * ratio * radius / 2.0;
         }
         else
         {

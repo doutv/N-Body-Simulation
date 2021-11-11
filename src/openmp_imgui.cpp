@@ -21,17 +21,19 @@ void schedule()
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
+        pool.get_body(i).init_delta_var();
         for (size_t j = 0; j < pool.size(); ++j)
         {
             if (i == j)
                 continue;
-            pool.parallel_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+            pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
         }
     }
 #pragma omp barrier
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
+        pool.get_body(i).update_by_delta_var();
         pool.get_body(i).update_for_tick(elapse, space, radius);
     }
 }

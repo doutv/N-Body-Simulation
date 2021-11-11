@@ -15,16 +15,20 @@ static int bodies = 200;
 static float elapse = 0.02;
 static float max_mass = 50;
 BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
+pthread_barrier_t barrier;
 
 void *worker(void *data)
 {
     size_t i = reinterpret_cast<size_t>(data);
+    pool.get_body(i).init_delta_var();
     for (size_t j = 0; j < pool.size(); ++j)
     {
         if (i == j)
             continue;
-        pool.parallel_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+        pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
     }
+    pthread_barrier_wait(&barrier);
+    pool.get_body(i).update_by_delta_var();
     pool.get_body(i).update_for_tick(elapse, space, radius);
     return nullptr;
 }
@@ -32,6 +36,7 @@ void schedule()
 {
     size_t threads_size = pool.size();
     std::vector<pthread_t> threads(threads_size);
+    pthread_barrier_init(&barrier, NULL, threads_size);
     pool.clear_acceleration();
     for (size_t i = 0; i < threads.size(); i++)
     {

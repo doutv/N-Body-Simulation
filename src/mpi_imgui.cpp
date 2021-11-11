@@ -50,10 +50,7 @@ void worker(int rank, int world_size)
     MPI_Bcast(&local_radius, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(&local_max_mass, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(&local_bodies, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (rank == 0)
-    {
-    }
-    else
+    if (rank != 0)
     {
         pool = BodyPool{static_cast<size_t>(local_bodies), local_space, local_max_mass};
     }
@@ -68,7 +65,6 @@ void worker(int rank, int world_size)
 
     // Step 1
     pool.clear_acceleration();
-    pool.mpi_init_delta_vector();
     int elements_per_process = pool.size() / world_size;
     size_t st_idx = elements_per_process * rank;
     size_t end_idx = st_idx + elements_per_process;
@@ -80,31 +76,18 @@ void worker(int rank, int world_size)
 
     for (size_t i = st_idx; i < end_idx; i++)
     {
-        for (size_t j = i + 1; j < pool.size(); j++)
+        for (size_t j = 0; j < pool.size(); j++)
         {
+            if (i == j)
+                continue;
             pool.mpi_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
         }
     }
-    // reduce delta vectors and send them to all processes
-    // MPI_Allreduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, MPI_Comm comm)
-    MPI_Allreduce(MPI_IN_PLACE, pool.dx.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, pool.dy.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, pool.dvx.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, pool.dvy.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, pool.dax.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-    MPI_Allreduce(MPI_IN_PLACE, pool.day.data(), pool.size(), MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     // Step 2
     for (size_t i = st_idx; i < end_idx; i++)
     {
-        pool.get_body(i).get_x() += pool.get_body(i).get_dx();
-        pool.get_body(i).get_y() += pool.get_body(i).get_dy();
-        pool.get_body(i).get_vx() += pool.get_body(i).get_dvx();
-        pool.get_body(i).get_vy() += pool.get_body(i).get_dvy();
-        pool.get_body(i).get_ax() += pool.get_body(i).get_dax();
-        pool.get_body(i).get_ay() += pool.get_body(i).get_day();
         pool.get_body(i).update_for_tick(local_elapse, local_space, local_radius);
     }
-
     // Gather bodies data
     std::vector<int> recvcounts;
     std::vector<int> displs;
@@ -188,7 +171,8 @@ int main(int argc, char **argv)
                                 draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                             }
                         }
-                        ImGui::End(); });
+                        ImGui::End();
+                    });
     }
     else
     {
