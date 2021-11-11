@@ -5,7 +5,6 @@
 
 #include <random>
 #include <utility>
-#include <mutex>
 
 class BodyPool
 {
@@ -29,7 +28,6 @@ public:
     {
         size_t index;
         BodyPool &pool;
-        std::mutex body_mutex;
 
         friend class BodyPool;
 
@@ -40,16 +38,6 @@ public:
         void init_delta_var()
         {
             dx = dy = dvx = dvy = 0;
-        }
-
-        void lock()
-        {
-            body_mutex.lock();
-        }
-
-        void unlock()
-        {
-            body_mutex.unlock();
         }
 
         double &get_x()
