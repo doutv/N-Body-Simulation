@@ -192,7 +192,7 @@ public:
         ay.assign(m.size(), 0.0);
     }
 
-    size_t size()
+    __device__ size_t size()
     {
         return m.size();
     }

@@ -1,8 +1,10 @@
 #include <graphic/graphic.hpp>
 #include <imgui_impl_sdl.h>
 #include <cstring>
-#include <nbody/body.hpp>
+#include <nbody/cuda_body.hpp>
 #include <vector>
+#include <cuda_runtime.h>
+#include <iostream>
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
@@ -13,22 +15,29 @@ static float radius = 5;
 static int bodies = 200;
 static float elapse = 0.1;
 static float max_mass = 50;
-BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
+__device__ __managed__ BodyPool pool = new BodyPool(static_cast<size_t>(bodies), space, max_mass);
 
-void schedule()
+__global__ void worker()
+{
+    size_t i = threadIdx.x;
+    for (size_t j = 0; j < pool.size(); ++j)
+    {
+        if (i == j)
+            continue;
+        pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+    }
+    pool.get_body(i).update_by_delta_var();
+    pool.get_body(i).update_for_tick(elapse, space, radius);
+}
+__host__ void schedule()
 {
     pool.clear_acceleration();
-    for (size_t i = 0; i < pool.size(); ++i)
-    {
-        for (size_t j = i + 1; j < pool.size(); ++j)
-        {
-            pool.check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
-        }
-    }
-    for (size_t i = 0; i < pool.size(); ++i)
-    {
-        pool.get_body(i).update_for_tick(elapse, space, radius);
-    }
+    // int blocks = pool.size();
+    // int threads_per_block = pool.size();
+    dim3 grid(1);
+    dim3 block(pool.size());
+    worker<<<grid, block>>>();
+    cudaDeviceSynchronize();
 }
 
 int main(int argc, char **argv)

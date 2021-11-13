@@ -3,9 +3,9 @@ project(a3 CUDA)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CUDA_STANDARD 17)
-# if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#     set(CMAKE_CUDA_FLAGS "-G -g")
-# endif()
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CUDA_FLAGS "-G -g")
+endif()
 
 # option(CUDA_ONLY "Build Cuda Only" OFF)
 
