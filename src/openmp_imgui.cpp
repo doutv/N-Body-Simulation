@@ -18,10 +18,10 @@ BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
 void schedule()
 {
     pool.clear_acceleration();
+    pool.init_delta_vector();
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
-        pool.get_body(i).init_delta_var();
         for (size_t j = 0; j < pool.size(); ++j)
         {
             if (i == j)
@@ -33,7 +33,7 @@ void schedule()
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
-        pool.get_body(i).update_by_delta_var();
+        pool.get_body(i).update_by_delta_vector();
         pool.get_body(i).update_for_tick(elapse, space, radius);
     }
 }
