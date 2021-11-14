@@ -8,12 +8,12 @@ job_limit=30
 export LD_LIBRARY_PATH=${dir}/build/
 mkdir -p ${dir}/tmp
 mkdir -p ${dir}/logs
-prog="mpi"
+
+prog="hybrid"
 
 log="${dir}/logs/${prog}-${tag}-${dt}.log"
 rounds=10
-# for i in {1,2,4,8,16,32,64,128}
-for i in {1..128}
+for thread in {1..32}
 do
     for size in {200,1000,5000,10000}
     do
@@ -24,13 +24,14 @@ do
             echo "$line jobs in squeue"
             sleep 1s
         done
-        file="${dir}/tmp/${prog}-${size}-${i}.sh"
-        output="${dir}/tmp/${prog}-${size}-${i}.out"
-        echo "using ${i} cores with size ${size}"
+        file="${dir}/tmp/${prog}-${size}-${thread}.sh"
+        output="${dir}/tmp/${prog}-${size}-${thread}.out"
+        echo "using ${thread} threads with size ${size}"
         echo "#!/bin/bash" > $file
         echo "export LD_LIBRARY_PATH=${dir}/build/" >> $file
-        echo "mpirun -n $i ${dir}/build/${prog} ${size} ${rounds} >> ${log}" >> $file
+        echo "export OMP_NUM_THREADS=${thread}" >> $file
+        echo "mpirun -n 4 ${dir}/build/${prog} ${size} ${rounds} >> ${log}" >> $file
         cat $file
-        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=$i --output=$output --distribution=${tag} $file
+        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=4 --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
     done
 done

@@ -52,3 +52,8 @@ add_executable(openmp_imgui src/graphic.cpp src/openmp_imgui.cpp)
 target_link_libraries(openmp_imgui core)
 add_executable(openmp src/openmp.cpp)
 target_link_libraries(openmp core)
+
+add_executable(hybrid_imgui src/graphic.cpp src/hybrid_mpi_openmp_imgui.cpp)
+target_link_libraries(hybrid_imgui core)
+add_executable(hybrid src/hybrid_mpi_openmp.cpp)
+target_link_libraries(hybrid core)
