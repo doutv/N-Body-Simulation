@@ -28,7 +28,7 @@ __global__ void worker()
             continue;
         pool->shared_memory_check_and_update(pool->get_body(i), pool->get_body(j), radius, gravity);
     }
-    // barrier
+    __syncthreads();
     pool->get_body(i).update_by_delta_var();
     pool->get_body(i).update_for_tick(elapse, space, radius);
 }
@@ -74,5 +74,6 @@ int main(int argc, char **argv)
     std::cout << std::endl;
 #endif
     delete pool;
+    cudaDeviceReset();
     return 0;
 }
