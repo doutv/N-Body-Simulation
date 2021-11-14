@@ -90,4 +90,7 @@ int main(int argc, char **argv)
                     }
                     ImGui::End();
                 });
+    delete pool;
+    cudaDeviceReset();
+    return 0;
 }

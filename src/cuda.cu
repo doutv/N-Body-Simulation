@@ -3,7 +3,7 @@
 #include <iostream>
 #include <chrono>
 
-#define DEBUG
+// #define DEBUG
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}

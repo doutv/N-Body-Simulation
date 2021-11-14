@@ -1,7 +1,7 @@
 #include <nbody/body.hpp>
 #include <mpi.h>
 #include <iostream>
-
+#include <chrono>
 // #define DEBUG
 
 template <typename... Args>

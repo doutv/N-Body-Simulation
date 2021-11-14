@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
-project(a3 CUDA CXX)
+project(a3 CXX)
 
-set(CMAKE_CUDA_STANDARD 14)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED)
@@ -11,7 +10,6 @@ find_package(Threads REQUIRED)
 find_package(OpenMP REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -ccbin=/opt/rh/devtoolset-10/root/usr/bin/gcc -gencode=arch=compute_75,code=[sm_75,compute_75]")
 set(OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
 
@@ -43,20 +41,46 @@ target_compile_definitions(core PUBLIC -DImDrawIdx=unsigned)
 target_compile_options(core PUBLIC)
 target_compile_definitions(core PUBLIC -DFONT_PATH=\"${FONT_PATH}\")
 
-add_executable(cuda_imgui src/graphic.cpp src/cuda_imgui.cu)
-target_link_libraries(cuda_imgui core)
-set_target_properties(cuda_imgui PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-set_target_properties(
-    cuda_imgui
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON
-    CUDA_ARCHITECTURES OFF
-    )
+add_executable(pthread_imgui src/graphic.cpp src/pthread_imgui.cpp)
+target_link_libraries(pthread_imgui core)
+add_executable(pthread src/pthread.cpp)
+target_link_libraries(pthread core)
 
-add_executable(cuda src/cuda.cu)
-set_target_properties(
-    cuda_imgui
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON
-    CUDA_ARCHITECTURES OFF
-    )
+add_executable(mpi_imgui src/graphic.cpp src/mpi_imgui.cpp)
+target_link_libraries(mpi_imgui core)
+add_executable(mpi src/mpi.cpp)
+target_link_libraries(mpi core)
+
+add_executable(openmp_imgui src/graphic.cpp src/openmp_imgui.cpp)
+target_link_libraries(openmp_imgui core)
+add_executable(openmp src/openmp.cpp)
+target_link_libraries(openmp core)
+
+add_executable(hybrid_imgui src/graphic.cpp src/hybrid_mpi_openmp_imgui.cpp)
+target_link_libraries(hybrid_imgui core)
+add_executable(hybrid src/hybrid_mpi_openmp.cpp)
+target_link_libraries(hybrid core)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message("release mode include cuda")
+    enable_language(CUDA)
+    set(CMAKE_CUDA_STANDARD 14)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -ccbin=/opt/rh/devtoolset-10/root/usr/bin/gcc -gencode=arch=compute_75,code=[sm_75,compute_75]")
+    add_executable(cuda_imgui src/graphic.cpp src/cuda_imgui.cu)
+    target_link_libraries(cuda_imgui core)
+    set_target_properties(cuda_imgui PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+    set_target_properties(
+        cuda_imgui
+        PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON
+        CUDA_ARCHITECTURES OFF
+        )
+
+    add_executable(cuda src/cuda.cu)
+    set_target_properties(
+        cuda_imgui
+        PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON
+        CUDA_ARCHITECTURES OFF
+        )
+endif()
