@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     std::cout << "block size: " << grid.x << std::endl;
     std::cout << "threads per block: " << block.x << std::endl;
     std::cout << "problem size: " << pool->size << std::endl;
-    std::cout << "duration(ns): " << duration << std::endl;
+    std::cout << "duration(ns/round): " << duration << std::endl;
     std::cout << "rounds: " << rounds << std::endl;
 #ifdef DEBUG
     printf("pool size: %zd\n", pool->size);
@@ -73,5 +73,6 @@ int main(int argc, char **argv)
         std::cout << each << " ";
     std::cout << std::endl;
 #endif
+    delete pool;
     return 0;
 }
