@@ -52,5 +52,3 @@ add_executable(openmp_imgui src/graphic.cpp src/openmp_imgui.cpp)
 target_link_libraries(openmp_imgui core)
 add_executable(openmp src/openmp.cpp)
 target_link_libraries(openmp core)
-
-set(CMAKE_CXX_FLAGS "-fsanitize=thread")

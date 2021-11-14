@@ -2,7 +2,7 @@
 #include <mpi.h>
 #include <iostream>
 
-#define DEBUG
+// #define DEBUG
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
@@ -164,6 +164,9 @@ int main(int argc, char **argv)
             worker(rank, world_size);
         }
     }
+#ifdef DEBUG
+    std::cout << "before MPI_Finalize" << std::endl;
+#endif
     MPI_Finalize();
 #ifdef DEBUG
     std::cout << "after MPI_Finalize" << std::endl;
