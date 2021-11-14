@@ -3,7 +3,7 @@
 #include <iostream>
 #include <chrono>
 
-// #define DEBUG
+#define DEBUG
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
@@ -18,9 +18,9 @@ __device__ __managed__ BodyPool *pool;
 
 __global__ void worker()
 {
-    size_t i = blockIdx.x;
+    size_t i = threadIdx.x;
 #ifdef DEBUG
-    // printf("blockIdx: %zd\n", i);
+    // printf("threadIdx: %d \n", i);
 #endif
     for (size_t j = 0; j < pool->size; ++j)
     {
@@ -45,8 +45,8 @@ int main(int argc, char **argv)
     rounds = atoi(argv[2]);
     using namespace std::chrono;
     pool = new BodyPool(static_cast<size_t>(bodies), space, max_mass);
-    dim3 grid(pool->size);
-    dim3 block(1);
+    dim3 grid(1);
+    dim3 block(pool->size);
     auto begin = high_resolution_clock::now();
     for (size_t i = 0; i < rounds; i++)
     {
@@ -57,6 +57,7 @@ int main(int argc, char **argv)
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - begin).count() / rounds;
     std::cout << "block size: " << grid.x << std::endl;
+    std::cout << "threads per block: " << block.x << std::endl;
     std::cout << "problem size: " << pool->size << std::endl;
     std::cout << "duration(ns): " << duration << std::endl;
     std::cout << "rounds: " << rounds << std::endl;

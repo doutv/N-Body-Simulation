@@ -4,8 +4,6 @@
 #pragma once
 
 #include <cuda_runtime.h>
-#include <curand.h>
-#include <curand_kernel.h>
 #include <random>
 
 class Managed
@@ -201,31 +199,6 @@ public:
             m[i] = mass_dist(engine);
         }
     }
-    /*
-    __device__ BodyPool(size_t size, double position_range, double mass_range)
-    {
-        curandState state;
-        curand_init(clock64(), 0, 0, &state);
-        for (size_t i = 0; i < size; i++)
-        {
-            auto randf = curand_uniform(&state);
-            randf *= (position_range + 0.999999);
-            x[i] = randf;
-        }
-        for (size_t i = 0; i < size; i++)
-        {
-            auto randf = curand_uniform(&state);
-            randf *= (position_range + 0.999999);
-            y[i] = randf;
-        }
-        for (size_t i = 0; i < size; i++)
-        {
-            auto randf = curand_uniform(&state);
-            randf *= (mass_range + 0.999999);
-            m[i] = randf;
-        }
-    }
-    */
 
     __device__ __host__ Body get_body(size_t index)
     {
