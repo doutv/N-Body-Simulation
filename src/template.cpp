@@ -3,16 +3,17 @@
 #include <cstring>
 #include <nbody/body.hpp>
 
-template <typename ...Args>
-void UNUSED(Args&&... args [[maybe_unused]]) {}
+template <typename... Args>
+void UNUSED(Args &&...args [[maybe_unused]]) {}
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     UNUSED(argc, argv);
     static float gravity = 100;
     static float space = 800;
     static float radius = 5;
-    static int bodies = 20;
-    static float elapse = 0.001;
+    static int bodies = 200;
+    static float elapse = 0.02;
     static ImVec4 color = ImVec4(1.0f, 1.0f, 0.4f, 1.0f);
     static float max_mass = 50;
     static float current_space = space;
@@ -20,7 +21,8 @@ int main(int argc, char **argv) {
     static int current_bodies = bodies;
     BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
     graphic::GraphicContext context{"Assignment 2"};
-    context.run([&](graphic::GraphicContext *context [[maybe_unused]], SDL_Window *) {
+    context.run([&](graphic::GraphicContext *context [[maybe_unused]], SDL_Window *)
+                {
         auto io = ImGui::GetIO();
         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
         ImGui::SetNextWindowSize(io.DisplaySize);
@@ -35,7 +37,7 @@ int main(int argc, char **argv) {
         ImGui::DragFloat("Space", &current_space, 10, 200, 1600, "%f");
         ImGui::DragFloat("Gravity", &gravity, 0.5, 0, 1000, "%f");
         ImGui::DragFloat("Radius", &radius, 0.5, 2, 20, "%f");
-        ImGui::DragInt("Bodies", &current_bodies, 1, 2, 100, "%d");
+        ImGui::DragInt("Bodies", &current_bodies, 1, 2, 2000, "%d");
         ImGui::DragFloat("Elapse", &elapse, 0.001, 0.001, 10, "%f");
         ImGui::DragFloat("Max Mass", &current_max_mass, 0.5, 5, 100, "%f");
         ImGui::ColorEdit4("Color", &color.x);
@@ -55,6 +57,5 @@ int main(int argc, char **argv) {
                 draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
             }
         }
-        ImGui::End();
-    });
+        ImGui::End(); });
 }

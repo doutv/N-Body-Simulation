@@ -1,0 +1,1 @@
+rsync -a slurm:/pvfsmnt/119010115/a3/logs ./ -v
