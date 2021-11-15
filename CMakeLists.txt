@@ -78,7 +78,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 
     add_executable(cuda src/cuda.cu)
     set_target_properties(
-        cuda_imgui
+        cuda
         PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON
         CUDA_ARCHITECTURES OFF
