@@ -212,7 +212,9 @@ Similar to Pthread implementation, the OpenMP implementation contains the follow
 1. Create a block with many threads using CUDA.
 1. Each thread gets its bodies range.
 2. Each thread runs Part One, and wait until all child threads complete Part One. Then run Part Two.
+
 ```cpp
+__device__ __managed__ BodyPool *pool;
 // worker() is called in this way:
 int main()
 {
@@ -250,6 +252,39 @@ __global__ void worker()
     }
 }
 ```
+
+Here, I use Unified Memory to simplify the memory copy calls. According to the CUDA documentation, the underlying system manages data access and locality within a CUDA program without the need for explicit memory copy calls. This benefits GPU programming in two primary ways:
+- GPU programming is simplified by unifying memory spaces coherently across all GPUs and CPUs in the system and by providing tighter and more straightforward language integration for CUDA programmers.
+- Data access speed is maximized by transparently migrating data towards the processor using it.
+
+I overload the operators `new` and `delete` to provide better encapsulation.
+```cpp
+class Managed
+{
+public:
+    __host__ void *operator new(size_t len)
+    {
+        void *ptr;
+        cudaMallocManaged(&ptr, len);
+        cudaDeviceSynchronize();
+        return ptr;
+    }
+
+    __host__ void operator delete(void *ptr)
+    {
+        cudaDeviceSynchronize();
+        cudaFree(ptr);
+    }
+};
+
+class BodyPool : public Managed{}
+int main()
+{
+    pool = new BodyPool(static_cast<size_t>(bodies), space, max_mass);
+    // call kernel
+    delete pool;
+}
+```
 ## Hybrid Implementation
 |     ![Figure 5](hybrid-implementation.png)     |
 | :--------------------------------------------: |
@@ -284,69 +319,53 @@ void worker(int rank, int world_size)
 }
 ```
 # Results
-Three different problem sizes ranging from small $200$, medium $400$ to large $800$ are tested. The amount of points is $size^2$ since they are in a square.
+Four different problem sizes ranging from $200$, $1000$, $5000$, and $10000$ are tested. 
 
 The performance of the program is analyzed from the following three dimensions:
-- Duration in nanoseconds(ns)
+- Duration in nanoseconds(ns) per time step
 - Speedup $Speedup_n = \frac{T_1}{T_n}$ where $T_1$ is the execution time on one process and $T_n$ is the execution time on $n$ processes.
-- Speed, which is measured by pixels calculated per second.
-## Cyclic vs. Block
-I use the [cyclic distribution method](https://slurm.schedmd.com/sbatch.html#OPT_cyclic) instead of the default block distribution method to reduce the influence of inter-node communication costs. 
-> The cyclic distribution method will distribute tasks to a node such that consecutive tasks are distributed over consecutive nodes (in a round-robin fashion)
 
-Since when I adopted the default block distribution method, some data show that there is a significant drop between core sizes $32$ and $33$. I guess the reason is that when $33$ cores are required, the default block distribution method will offer $32$ cores on the same node and $1$ core on the other node, and inter-node communication time is much longer than intra-node communication time. 
-
-The following table shows the significant difference between core sizes $32$ and $33$
-| world size | problem size | duration(ns) | speed(px/s) |  speedup  |
-| :--------: | :----------: | :----------: | :---------: | :-------: |
-|     32     |     200      |   1927916    |  103739.0   | 18.335724 |
-|     33     |     200      |   10680568   |   18725.6   | 3.309724  |
-|     32     |     400      |   5519552    |   72469.6   | 25.721739 |
-|     33     |     400      |   15070290   |   26542.3   | 9.420686  |
-|     32     |     800      |   19809013   |   40385.7   | 28.641585 |
-|     33     |     800      |   27092379   |   29528.6   | 20.941739 |
 ## MPI
 
-| ![Figure 3](mpi-cyclic-duration-overview.png) |
+| ![Figure 6](mpiSpeedupOverview.png) |
+| :---------------------------------: |
+|   Figure 6: MPI Duration Overview   |
+
+In Figure 6, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the MPI version. As problem size increases, the gap becomes even larger.
+
+
+| ![Figure 7](mpiSpeedupOverview.png) |
+| :---------------------------------: |
+|   Figure 7: MPI Speedup Overview    |
+
+In Figure 7, for those process numbers greater than $1$, as problem size increases, the speedup also increases. The larger the process number, the faster the growth (bigger slope). 
+
+|   ![Figure 8](mpiproblemsize200speedup.png)   |
 | :-------------------------------------------: |
-|        Figure 3: MPI Duration Overview        |
+| Figure 8: MPI Speedup with Problem Size $200$ |
 
-In Figure 3, the large gap between the blue curve and the orange curve shows that the sequential version is much slower than the MPI version. As problem size increases, the gap becomes even larger.
+| ![Figure 9](mpiproblemsize200durationnsround.png) |
+| :-----------------------------------------------: |
+|  Figure 9: MPI Duration with Problem Size $200$   |
 
+In Figure 8 and Figure 9, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6\mu s$), the startup time and the inter-process communication time are relatively large compared to the computation time.
 
-| ![Figure 4](mpi-cyclic-speedup-overview.png) |
-| :------------------------------------------: |
-|        Figure 4: MPI Speedup Overview        |
+|   ![Figure 10](mpiproblemsize1000speedup.png)   |
+| :---------------------------------------------: |
+| Figure 10: MPI Speedup with Problem Size $1000$ |
 
-In Figure 4, for those process numbers greater than $1$, as problem size increases, the speedup also increases. The larger the process number, the faster the growth (bigger slope). 
-| ![Figure 5](mpi-cyclic-speed-overview.png) |
-| :----------------------------------------: |
-|        Figure 5: MPI Speed Overview        |
+In Figure 10, initially, the speedup first increases with the process number. When the process number reaches about $10$, the speedup starts to fluctuate up and down in a slow downward trend. I think the reason is the same as above.
 
-In Figure 5, it can be noticed that greater process number brings faster speed. As the problem size increases, the speed decreases for all process numbers.
+|   ![Figure 11](mpiproblemsize5000speedup.png)   |
+| :---------------------------------------------: |
+| Figure 11: MPI Speedup with Problem Size $5000$ |
 
-|    ![Figure 6](mpi-cyclic-speedup-200.png)    |
-| :-------------------------------------------: |
-| Figure 6: MPI Speedup with Problem Size $200$ |
+|   ![Figure 12](mpiproblemsize10000speedup.png)   |
+| :----------------------------------------------: |
+| Figure 12: MPI Speedup with Problem Size $10000$ |
 
-|    ![Figure 7](mpi-cyclic-duration-200.png)    |
-| :--------------------------------------------: |
-| Figure 7: MPI Duration with Problem Size $200$ |
-
-In Figure 6, initially, the speedup first increases with the process number. When the process number reaches about $30$, the speedup starts to fluctuate up and down in a slow downward trend. According to Figure 7, when the process number is above $20$, the duration is only about $2.5ms$. The possible reason is that the computation time of each process is small, and the inter-process communication time becomes the determining factor.
-
-|    ![Figure 8](mpi-cyclic-speedup-400.png)    |
-| :-------------------------------------------: |
-| Figure 8: MPI Speedup with Problem Size $400$ |
-
-In Figure 8, initially, the speedup first increases with the process number. When the process number reaches about $50$, the speedup starts to fluctuate up and down in a slow downward trend. I think the reason is the same as above.
-
-|    ![Figure 9](mpi-cyclic-speedup-800.png)    |
-| :-------------------------------------------: |
-| Figure 9: MPI Speedup with Problem Size $800$ |
-
-In Figure 9, the speedup keeps increasing with the process number. Since the computation workload is much larger than the above two situations, the speedup does not go down.
-## Pthread and Comparing MPI and Pthread
+In Figure 11 and Figure 12, the speedup keeps increasing with the process number. Compared to Figure 11, Figure 12 has a more significant speedup under the same process number. That's because the computation work is more extensive.
+## Pthread
 For Pthread, the thread number increases from $1$ to $32$, each time by $1$, since Pthread requires shared memory and on a single node, there are only $32$ physical threads available.
 | ![Figure 10](pthread-duration-overview.png) | ![Figure 11](mpi-duration-overview-compare.png) |
 | :-----------------------------------------: | :---------------------------------------------: |
@@ -367,7 +386,48 @@ Compared to MPI version, the slope of the curve and the speedup is much smaller.
 In Figure 14, it can be noticed that greater thread number brings faster speed. As the problem size increases, the speed decreases for all thread numbers.  
 Compared to the MPI version, the speed is much smaller.
 
+## CUDA
+For CUDA, it is tested on GTX2080Ti with maximum $1024$ threads per block.
+| ![Figure 6](cudaDurationOverview.png) |
+| :-----------------------------------: |
+|   Figure 6: CUDA Duration Overview    |
+
+In Figure 6, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the CUDA version. As problem size increases, the gap becomes even larger.
+
+| ![Figure 7](cudaSpeedupOverview.png) |
+| :----------------------------------: |
+|   Figure 7: CUDA Speedup Overview    |
+
+In Figure 7, it can be noticed that the speedup of some thread numbers first increases with problem size then decreases. When the thread number is $256$, the speedup always increases with the problem size.
+
+It is interesting to point out that when the thread number is $1024$, which is the maximum thread number per block for this NVIDIA GPU, the speedup does not perform well. The possible reason is that CUDA uses a unique architecture called SIMT (Single-Instruction, Multiple-Thread). 
+- According to the CUDA documentation, The multiprocessor creates, manages, schedules, and executes threads in groups of 32 parallel threads called warps. Individual threads composing a warp start together at the same program address, but they have their own instruction address counter and register state and are therefore free to branch and execute independently. The term warp originates from weaving, the first parallel thread technology. A half-warp is either the first or second half of a warp. A quarter-warp is either the first, second, third, or fourth quarter of a warp.
+- I think this can explain the result that when the problem size is large, thread numbers $256$, $128$, $64$, and $32$ perform better than other thread numbers.
+
+
+
+|   ![Figure 8](cudaproblemsize200speedup.png)   |
+| :--------------------------------------------: |
+| Figure 8: CUDA Speedup with Problem Size $200$ |
+
+
+|   ![Figure 9](cudaproblemsize1000speedup.png)   |
+| :---------------------------------------------: |
+| Figure 9: CUDA Speedup with Problem Size $1000$ |
+
+|   ![Figure 9](cudaproblemsize5000speedup.png)   |
+| :---------------------------------------------: |
+| Figure 9: CUDA Speedup with Problem Size $5000$ |
+
+|   ![Figure 9](cudaproblemsize10000speedup.png)   |
+| :----------------------------------------------: |
+| Figure 9: CUDA Speedup with Problem Size $10000$ |
+
+In the above figures, as problem size increases, the speedup first increases, then decreases. The possible reason is that the computation time of each thread is short, and the thread creation time becomes the determining factor. This can be proved by the fact that when the thread number is fixed, as the problem size increases, the speedup get larger.
+
 # Conclusion
-By working on this assignment, I gain a deeper and better understanding of parallel programming. Not only the algorithm should be considered, but also the underlying hardware structure. Compared to MPI, Pthread is easier to implement, and it requires a shared memory hardware architecture. I compared different kinds of Load balancing algorithms and decided to choose the Master-Worker Scheme. 
+After working out this assignment, I have learned to write OpenMP, CUDA, and hybrid MPI and OpenMP programs. Different implementations of parallel programming bring different programming experience. It enables me to think deeply about the pros and cons of each implementation. OpenMP is definitely the most easiest one to write. Pthread and CUDA are two shared memory models using CPU and GPU respectively. MPI presents the highest performance.
 # References
 - https://openmp.org/wp-content/uploads/HybridPP_Slides.pdf
+- https://docs.nvidia.com/cuda/cuda-c-programming-guide/
+- https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#simt-architecture
