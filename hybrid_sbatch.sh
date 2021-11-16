@@ -11,19 +11,23 @@ mkdir -p ${dir}/logs
 prog="hybrid"
 
 log="${dir}/logs/${prog}-${tag}-${dt}.log"
-rounds=10
-for thread in {1..32}
+rounds=1
+for task in {1,2,4,8,16,32,64,128}
 do
+    thread=$((128 / task))
+    if (( $thread > 32 )); then
+        thread=32
+    fi
     for size in {200,1000,5000,10000}
     do
-        file="${dir}/tmp/${prog}-${size}-${thread}.sh"
-        output="${dir}/tmp/${prog}-${size}-${thread}.out"
-        echo "using ${thread} threads with size ${size}"
+        file="${dir}/tmp/${prog}-${size}-${task}-${thread}.sh"
+        output="${dir}/tmp/${prog}-${size}-${task}-${thread}.out"
+        echo "using ${task} tasks and ${thread} threads with size ${size}"
         echo "#!/bin/bash" > $file
         echo "export LD_LIBRARY_PATH=${dir}/build/" >> $file
-        echo "export OMP_NUM_THREADS=${thread}" >> $file
-        echo "mpirun -n 4 ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
+        echo "mpirun -n {task} ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
+        echo "sbatch file: ${file}"
         cat $file
-        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=4 --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
+        sbatch --wait --account=csc4005 --partition=debug --qos=normal --ntasks=${task} --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
     done
 done
