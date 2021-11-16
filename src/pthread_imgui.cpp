@@ -2,8 +2,8 @@
 #include <imgui_impl_sdl.h>
 #include <cstring>
 #include <nbody/body.hpp>
-#include "pthread_barrier.h"
-// #include <pthread.h>
+#include <pthread_barrier.h>
+#include <pthread.h>
 #include <vector>
 
 template <typename... Args>
@@ -38,7 +38,7 @@ void schedule()
     std::vector<pthread_t> threads(threads_size);
     pthread_barrier_init(&barrier, NULL, threads_size);
     pool.clear_acceleration();
-    pool.init_delta_vector();
+    pool.clear_delta_vector();
     for (size_t i = 0; i < threads.size(); i++)
     {
         pthread_create(&threads[i], nullptr, worker, reinterpret_cast<void *>(i));
@@ -92,5 +92,6 @@ int main(int argc, char **argv)
                             draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                         }
                     }
-                    ImGui::End(); });
+                    ImGui::End();
+                });
 }

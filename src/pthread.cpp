@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
+#include <pthread_barrier.h>
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
@@ -46,7 +47,7 @@ void schedule(size_t thread_num)
     std::vector<pthread_t> threads(thread_num);
     pthread_barrier_init(&barrier, NULL, thread_num);
     pool.clear_acceleration();
-    pool.init_delta_vector();
+    pool.clear_delta_vector();
     size_t idx_per_thread = pool.size() / thread_num;
     size_t remainder = pool.size() % thread_num;
     size_t st_idx = 0;

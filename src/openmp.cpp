@@ -18,7 +18,7 @@ BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
 void schedule()
 {
     pool.clear_acceleration();
-    pool.init_delta_vector();
+    pool.clear_delta_vector();
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {

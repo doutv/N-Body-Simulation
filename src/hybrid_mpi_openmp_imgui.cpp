@@ -64,7 +64,6 @@ void worker(int rank, int world_size)
     MPI_Bcast(pool.m.data(), pool.size(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Step 1
-    pool.clear_acceleration();
     int elements_per_process = pool.size() / world_size;
     size_t st_idx = elements_per_process * rank;
     size_t end_idx = st_idx + elements_per_process;
@@ -74,6 +73,8 @@ void worker(int rank, int world_size)
     if (rank == world_size - 1)
         end_idx = pool.size();
 
+    pool.clear_acceleration();
+    pool.clear_delta_vector();
 #pragma omp parallel for shared(pool)
     for (size_t i = st_idx; i < end_idx; i++)
     {
@@ -81,13 +82,15 @@ void worker(int rank, int world_size)
         {
             if (i == j)
                 continue;
-            pool.mpi_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
+            pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
         }
     }
     // Step 2
+#pragma omp barrier
 #pragma omp parallel for shared(pool)
     for (size_t i = st_idx; i < end_idx; i++)
     {
+        pool.get_body(i).update_by_delta_vector();
         pool.get_body(i).update_for_tick(local_elapse, local_space, local_radius);
     }
     // Gather bodies data

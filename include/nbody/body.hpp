@@ -178,8 +178,7 @@ public:
         }
     };
 
-    // BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
-    BodyPool(size_t size, double position_range, double mass_range) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size)
+    BodyPool(size_t size, double position_range, double mass_range) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size), dx(size), dy(size), dvx(size), dvy(size)
     {
         std::random_device device;
         std::default_random_engine engine{device()};
@@ -210,12 +209,12 @@ public:
         ay.assign(m.size(), 0.0);
     }
 
-    void init_delta_vector()
+    void clear_delta_vector()
     {
-        dx.resize(size(), 0);
-        dy.resize(size(), 0);
-        dvx.resize(size(), 0);
-        dvy.resize(size(), 0);
+        dx.assign(size(), 0.0);
+        dy.assign(size(), 0.0);
+        dvx.assign(size(), 0.0);
+        dvy.assign(size(), 0.0);
     }
 
     size_t size()
@@ -301,6 +300,7 @@ public:
         }
         if (i.collide(j, radius))
         {
+
             auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
             auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
             i.get_vx() -= scalar * delta_x * j.get_m();

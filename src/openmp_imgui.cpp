@@ -72,7 +72,7 @@ int main(int argc, char **argv)
                     }
                     {
                         const ImVec2 p = ImGui::GetCursorScreenPos();
-                        pool.init_delta_vector();
+                        pool.clear_delta_vector();
                         schedule();
                         for (size_t i = 0; i < pool.size(); ++i)
                         {
