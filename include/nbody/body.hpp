@@ -178,7 +178,7 @@ public:
         }
     };
 
-    BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
+    // BodyPool(size_t size) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size) {}
     BodyPool(size_t size, double position_range, double mass_range) : x(size), y(size), vx(size), vy(size), ax(size), ay(size), m(size)
     {
         std::random_device device;
@@ -303,12 +303,12 @@ public:
         {
             auto dot_prod = delta_x * (i.get_vx() - j.get_vx()) + delta_y * (i.get_vy() - j.get_vy());
             auto scalar = 2 / (i.get_m() + j.get_m()) * dot_prod / distance_square;
-            i.get_vx() = scalar * delta_x * j.get_m();
-            i.get_vy() = scalar * delta_y * j.get_m();
+            i.get_vx() -= scalar * delta_x * j.get_m();
+            i.get_vy() -= scalar * delta_y * j.get_m();
             // now relax the distance a bit: after the collision, there must be
             // at least (ratio * radius) between them
-            i.get_x() = delta_x / distance * ratio * radius / 2.0;
-            i.get_y() = delta_y / distance * ratio * radius / 2.0;
+            i.get_x() += delta_x / distance * ratio * radius / 2.0;
+            i.get_y() += delta_y / distance * ratio * radius / 2.0;
         }
         else
         {

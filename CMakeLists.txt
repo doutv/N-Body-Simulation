@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(a3 CXX)
-
+set(CMAKE_CXX_FLAGS "-fsanitize=thread")
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED)
