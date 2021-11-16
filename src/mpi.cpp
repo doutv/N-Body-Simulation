@@ -23,7 +23,7 @@ static float radius = 5;
 static int bodies = 200;
 static float elapse = 0.02;
 static float max_mass = 50;
-BodyPool pool(static_cast<size_t>(bodies));
+BodyPool pool{static_cast<size_t>(bodies), space, max_mass};
 
 void worker(int rank, int world_size)
 {

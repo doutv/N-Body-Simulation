@@ -18,7 +18,6 @@ BodyPool pool(static_cast<size_t>(bodies), space, max_mass);
 void schedule()
 {
     pool.clear_acceleration();
-    pool.init_delta_vector();
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
@@ -29,12 +28,14 @@ void schedule()
             pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
         }
     }
+#pragma omp barrier
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
         pool.get_body(i).update_by_delta_vector();
         pool.get_body(i).update_for_tick(elapse, space, radius);
     }
+#pragma omp barrier
 }
 
 int main(int argc, char **argv)
@@ -71,6 +72,7 @@ int main(int argc, char **argv)
                     }
                     {
                         const ImVec2 p = ImGui::GetCursorScreenPos();
+                        pool.clear_delta_vector();
                         schedule();
                         for (size_t i = 0; i < pool.size(); ++i)
                         {
@@ -80,6 +82,5 @@ int main(int argc, char **argv)
                             draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                         }
                     }
-                    ImGui::End();
-                });
+                    ImGui::End(); });
 }

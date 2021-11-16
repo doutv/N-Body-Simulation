@@ -2,6 +2,7 @@
 #include <imgui_impl_sdl.h>
 #include <cstring>
 #include <nbody/body.hpp>
+#include <pthread_barrier.h>
 #include <pthread.h>
 #include <vector>
 
@@ -37,7 +38,7 @@ void schedule()
     std::vector<pthread_t> threads(threads_size);
     pthread_barrier_init(&barrier, NULL, threads_size);
     pool.clear_acceleration();
-    pool.init_delta_vector();
+    pool.clear_delta_vector();
     for (size_t i = 0; i < threads.size(); i++)
     {
         pthread_create(&threads[i], nullptr, worker, reinterpret_cast<void *>(i));
