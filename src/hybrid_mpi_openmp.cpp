@@ -148,6 +148,7 @@ int main(int argc, char **argv)
     rounds = atoi(argv[2]);
     thread_num = atoi(argv[3]);
     omp_set_num_threads(thread_num);
+    printf("rank %d: openmp max threads: %d\n",rank,omp_get_max_threads());
     if (rank == 0)
     {
         using namespace std::chrono;
