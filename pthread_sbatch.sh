@@ -13,8 +13,11 @@ rounds=1
 log="${dir}/logs/${prog}-${dt}.log"
 for thread in {1..64}
 do
-    if (( $thread > 32 )); then
-        thread=32
+    if (( $thread > 32 ))
+    then
+        realthread=32
+    else
+        realthread=thread
     fi
     for size in {200,1000,5000,10000}
     do
@@ -25,6 +28,6 @@ do
         echo "export LD_LIBRARY_PATH=${dir}/build/" >> $file
         echo "${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
         cat $file
-        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=1 --ntasks=1 --cpus-per-task=${thread} --output=$output $file
+        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=1 --ntasks=1 --cpus-per-task=${realthread} --output=$output $file
     done
 done
