@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <vector>
 #include <iostream>
+#include <chrono>
 
 template <typename... Args>
 void UNUSED(Args &&...args [[maybe_unused]]) {}
@@ -69,7 +70,7 @@ void schedule(size_t thread_num)
 int main(int argc, char **argv)
 {
     UNUSED(argc, argv);
-    if (argc < 3)
+    if (argc < 4)
     {
         std::cout << "Usage: pthread <size> <rounds> <thread_num>" << std::endl;
         return 0;

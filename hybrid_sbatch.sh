@@ -30,7 +30,7 @@ do
         echo "#!/bin/bash" > $file
         echo "export LD_LIBRARY_PATH=${dir}/build/" >> $file
         echo "export OMP_NUM_THREADS=${thread}" >> $file
-        echo "mpirun -n 4 ${dir}/build/${prog} ${size} ${rounds} >> ${log}" >> $file
+        echo "mpirun -n 4 ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
         cat $file
         sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=4 --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
     done
