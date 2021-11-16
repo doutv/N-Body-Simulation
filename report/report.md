@@ -10,41 +10,53 @@ cd /path/to/project
 # 2. On Slurm(with Cuda)
 ./release.sh
 ```
-# Introduction
-An N-body simulation approximates the motion of particles, often specifically particles that interact with one another through some type of physical forces. Using this broad definition, the types of particles that can be simulated using n-body methods are quite significant, ranging from celestial bodies to individual atoms in a gas cloud. From here out, we will specialize the conversation to gravitational interactions, where individual particles are defined as a physical celestial body, such as a planet, star, or black hole. Motion of the particles on the bodies themselves is neglected, since it is often not interesting to the problem and will hence add an unnecessarily large number of particles to the simulation. N-body simulation have numerous applications in areas such as astrophysics, molecular dynamics and plasma physics. The simulation proceeds over time steps, each time computing the net force on every body and thereby updating its position and other attributes. If all pairwise ofrces are computed directly, this requires $O(N^2)$ opertaions at each time step.
+## Run
+```sh
+cd /path/to/project/build
 
-In order to visualize the N-body simulation, each body is modeled as a ball
+```
+# Introduction
+An N-body simulation approximates the motion of particles, often specifically particles that interact with one another through some types of physical forces. Using this broad definition, the types of particles that can be simulated using n-body methods are quite significant, ranging from celestial bodies to individual atoms in a gas cloud. From here out, we will specialize the conversation to gravitational interactions, where individual particles are defined as a physical celestial body, such as a planet, star, or black hole. A motion of the particles on the bodies themselves is neglected since it is often not interesting to the problem and will hence add an unnecessarily large number of particles to the simulation. N-body simulation has numerous applications in areas such as astrophysics, molecular dynamics, and plasma physics. The simulation proceeds over time steps, each time computing the net force on each body and thereby updating its position and other attributes. If all pairwise forces are computed directly, this requires $O(N^2)$ operations at each time step.
+
+In this assignment, the N-body simulation is in two dimensions. In order to visualize the N-body simulation, each body is modeled as a ball.
 # Design
+In each time step, the simulation is divided into two parts for each body:
+1. Part One: Calculate the forces between it and the others, and check whether two bodies collide. Two bodies collide if their distance is less than the radius of the ball.
+2. Part Two: Update its position, velocity based on the time elapse and check whether it crosses the boundary.
+
+If there are $N$ bodies, the time complexity of the simulation in each time step is $O(N^2)$
+
+The design of sequential version and parallel version differs a little.  
+- In the sequential version, in Part One, if two bodies collide, their position and velocity are immediately updated. Thus, Part One computation is halved, and only $\frac{N(N-1)}{2}$ calculation is needed.
+- In parallel versions, in Part One, if two bodies collide, the changes in their position and velocity are saved. Thus, their position and velocity are not updated in Part One but in Part Two. The reason for this design is to eliminate the data dependency between bodies.
+
+This slight difference results in different movements of the bodies in visualization.
 
 # Implementations
 ## Sequential Implementation
-This sequential implementation is given by teaching assistants with small modifications, and here I just explain some variables:
-- `buffer` is a `struct` wrapping a 1-D vector.
-- The total number of points (pixels) is given by $size^2$, and the generated image is a square with side length $size$.
-- `k_value` specifies the number of iterations for each point.
-- In order to visualize the Mandelbrot Set, the point position in the complex plane should be transformed to position in the square image. Thus, variables `scale`, `x_center`, `y_center` are used.
+This sequential implementation is given by teaching assistants.  
+
 ```cpp
-void sequential_calculate(Square &buffer, int size, int scale, double x_center, double y_center, int k_value, int world_size)
+void update_for_tick(double elapse,
+                    double gravity,
+                    double position_range,
+                    double radius)
 {
-    double cx = static_cast<double>(size) / 2 + x_center;
-    double cy = static_cast<double>(size) / 2 + y_center;
-    double zoom_factor = static_cast<double>(size) / 4 * scale;
-    for (int i = 0; i < size; ++i)
+    ax.assign(size(), 0);
+    ay.assign(size(), 0);
+    // Part One
+    for (size_t i = 0; i < size(); ++i)
     {
-        for (int j = 0; j < size; ++j)
+        for (size_t j = i + 1; j < size(); ++j)
         {
-            double x = (static_cast<double>(j) - cx) / zoom_factor;
-            double y = (static_cast<double>(i) - cy) / zoom_factor;
-            std::complex<double> z{0, 0};
-            std::complex<double> c{x, y};
-            int k = 0;
-            do
-            {
-                z = z * z + c;
-                k++;
-            } while (norm(z) < 2.0 && k < k_value);
-            buffer[{i, j}] = k;
+            // update both bodies' positions and velocities immediately
+            check_and_update(get_body(i), get_body(j), radius, gravity);
         }
+    }
+    // Part Two
+    for (size_t i = 0; i < size(); ++i)
+    {
+        get_body(i).update_for_tick(elapse, position_range, radius);
     }
 }
 ```
@@ -54,179 +66,221 @@ void sequential_calculate(Square &buffer, int size, int scale, double x_center, 
 | :---------------------------------: |
 |    Figure 1: MPI Implementation     |
 
-Master-Worker Scheme algorithm is implemented using MPI:
-1. The master node is the node with rank $0$, and the worker nodes are the others. Assume there are $n-1$ worker nodes.
-2. The points are divided into $size$ tasks, and each task is dynamically assigned to a worker node.
-
-Master node `root_schedule`:
-1. First, the master node broadcasts several variables to all worker nodes.
-2. Then, it starts an iteration for $size+n-1$ rounds, in each round:
- 1. It tries to receive data from any worker node. 
- 2. After it receives data from a worker node, it sends the next task to this worker node. 
-     1. In the first $size$ rounds, it sends a y-axis index to the worker node telling the worker node to compute all points with this y-axis index. 
-     2. In the last $n-1$ rounds, it sends an invalid y-axis index to the worker node telling the worker node to stop calculation.
- 3. If the received data is part of the results, store the received data.
+The MPI implementation contains the following steps:
+1. The root process creates a body pool and broadcast it to every other process.
+2. Each process calculates its range of bodies. Bodies are distributed evenly across processes.
+3. Each process runs Part One and Part Two.
+4. Gather bodies data to the root process.
 
 ```cpp
-void root_schedule(Square &result, size_t size, int scale, double x_center, double y_center, int k_value, size_t world_size)
+void worker(int rank, int world_size)
 {
-    MPI_Bcast(&size, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&scale, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&x_center, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&y_center, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&k_value, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    std::vector<int> recv_buffer(size + 1, 0);
-    for (size_t y_idx = 0; y_idx < size + world_size - 1; y_idx++)
+    // Preparation: Broadcast all bodies to all processes
+    // ...
+    // Each process calculate its range of bodies
+    pool.clear_acceleration();
+    int elements_per_process = pool.size() / world_size;
+    size_t st_idx = elements_per_process * rank;
+    size_t end_idx = st_idx + elements_per_process;
+    if (rank == world_size - 1)
+        end_idx = pool.size();
+    // Part One
+    for (size_t i = st_idx; i < end_idx; i++)
     {
-        MPI_Status status;
-        MPI_Recv(recv_buffer.data(), size + 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
-        MPI_Send(&y_idx, 1, MPI_UNSIGNED_LONG, status.MPI_SOURCE, 1, MPI_COMM_WORLD);
-        size_t recv_y_idx = recv_buffer.back();
-        if (recv_y_idx < size)
-            std::copy(recv_buffer.begin(), recv_buffer.begin() + size, result.buffer.begin() + recv_y_idx * size);
-    }
-}
-```
-
-Worker node `slave_calculate`:
-1. First, the worker node receives several variables from the master node.
-2. Then, it creates an empty `vector` to temporally store results and send this to the master node to tell the master node it is idle.
-3. Finally, it starts an infinite loop:
-   1. First, it tries to receive a y-axis index from the master node. 
-   2. If this index is invalid, it will stop the process.
-   3. If this index is valid, it will do the calculation similar to the sequential version.
-   4. After calculation, it sends the results back to the master node.
-
-```cpp
-void slave_calculate()
-{
-    size_t size;
-    int scale, k_value;
-    double x_center, y_center;
-    MPI_Bcast(&size, 1, MPI_UNSIGNED_LONG, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&scale, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&x_center, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&y_center, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    MPI_Bcast(&k_value, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    double cx = static_cast<double>(size) / 2 + x_center;
-    double cy = static_cast<double>(size) / 2 + y_center;
-    double zoom_factor = static_cast<double>(size) / 4 * scale;
-    std::vector<int> shard_result(size + 1, INT32_MAX);
-    MPI_Send(shard_result.data(), size + 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-    while (1)
-    {
-        size_t y_idx;
-        MPI_Recv(&y_idx, 1, MPI_UNSIGNED_LONG, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        if (y_idx >= size)
-            break;
-        // calculation
-        double x = (static_cast<double>(y_idx) - cx) / zoom_factor;
-        for (size_t x_idx = 0; x_idx < size; ++x_idx)
+        for (size_t j = 0; j < pool.size(); j++)
         {
-            double y = (static_cast<double>(x_idx) - cy) / zoom_factor;
-            std::complex<double> z{0, 0};
-            std::complex<double> c{x, y};
-            int k = 0;
-            do
-            {
-                z = z * z + c;
-                k++;
-            } while (norm(z) < 2.0 && k < k_value);
-            shard_result[x_idx] = k;
+            if (i == j)
+                continue;
+            // update body i's position and velocity immediately
+            pool.mpi_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
         }
-        shard_result.back() = y_idx;
-        MPI_Send(shard_result.data(), size + 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
+    // Part Two
+    for (size_t i = st_idx; i < end_idx; i++)
+    {
+        pool.get_body(i).update_for_tick(local_elapse, local_space, local_radius);
+    }
+    // Gather bodies data to the root process
+    // ...
 }
 ```
+
 
 ## Pthread Implementation
 | ![Figure 2](pthread-implementation.png) |
 | :-------------------------------------: |
 |    Figure 2: Pthread Implementation     |
 
-A modified version of the Master-Worker Scheme algorithm is implemented using Pthread:
-1. Instead of using a master node to schedule tasks, each node uses a global mutex lock to get its task from the global shared memory.
-2. The Mandelbrot Set is divided into $size$ tasks using the Round-robin method. Thus, each task contains almost the same amount of points.
-3. If a node is idle, it tries to acquire the global mutex lock and get its next task:
-   1. By calculating the y-axis index range and modifying the next y-axis index to calculate, a node is assigned a task.
-   2. After calculation, a node stores the results in the global result memory space. Since nodes should not have overlapping y-axis index, writing to the global result memory space concurrently without the protection of mutex lock should be fine.
-
+The Pthread implementation contains the following steps:
+1. The main thread distributes bodies range evenly and create child threads.
+2. Each child thread gets its bodies range.
+3. Each child thread runs Part One, and wait until all child threads complete Part One using a barrier. Then run Part Two.
 ```cpp
-// global constants
-Square canvas(100);
-int thread_num;
-int size;
-int scale;
-int x_center;
-int y_center;
-int k_value;
-
-// global shared memory
-int element_per_thread;
-int remain;
-int g_idx;
-int cur_task;
-int num_of_tasks;
-
-std::mutex g_mutex;
-
-void *thread_calculate(void *)
+void schedule(size_t thread_num)
 {
-    while (1)
-    {
-        size_t st_idx, end_idx;
-        if (cur_task >= num_of_tasks)
-            break;
-        g_mutex.lock();
-        // -----critical section start-----
-        end_idx = cur_task < remain ? g_idx + element_per_thread + 1 : g_idx + element_per_thread;
-        ++cur_task;
-        st_idx = g_idx;
-        g_idx = end_idx;
-        // -----critical section end-----
-        g_mutex.unlock();
-        for (size_t y_idx = st_idx; y_idx < end_idx; y_idx++)
-        {
-            double cx = static_cast<double>(size) / 2 + x_center;
-            double cy = static_cast<double>(size) / 2 + y_center;
-            double zoom_factor = static_cast<double>(size) / 4 * scale;
-            double x = (static_cast<double>(y_idx) - cx) / zoom_factor;
-            for (size_t x_idx = 0; x_idx < static_cast<size_t>(size); ++x_idx)
-            {
-                double y = (static_cast<double>(x_idx) - cy) / zoom_factor;
-                std::complex<double> z{0, 0};
-                std::complex<double> c{x, y};
-                int k = 0;
-                do
-                {
-                    z = z * z + c;
-                    k++;
-                } while (norm(z) < 2.0 && k < k_value);
-                canvas[{x_idx, y_idx}] = k;
-            }
-        }
-    }
-    return nullptr;
-}
-
-void schedule()
-{
-    canvas.resize(size);
     std::vector<pthread_t> threads(thread_num);
-    num_of_tasks = size;
-    element_per_thread = size / num_of_tasks;
-    remain = size % num_of_tasks;
-    g_idx = 0;
-    cur_task = 0;
-    for (auto &thread : threads)
+    pthread_barrier_init(&barrier, NULL, thread_num);
+    pool.clear_acceleration();
+    pool.init_delta_vector();
+    size_t idx_per_thread = pool.size() / thread_num;
+    size_t remainder = pool.size() % thread_num;
+    size_t st_idx = 0;
+    std::vector<idx_struct> idx_struct_arr;
+    for (size_t i = 0; i < threads.size(); i++)
     {
-        pthread_create(&thread, nullptr, thread_calculate, nullptr);
+        size_t end_idx = i < remainder ? st_idx + idx_per_thread + 1 : st_idx + idx_per_thread;
+        idx_struct_arr.push_back({st_idx, end_idx});
+        st_idx = end_idx;
+    }
+    for (size_t i = 0; i < threads.size(); i++)
+    {
+        pthread_create(&threads[i], nullptr, worker, reinterpret_cast<void *>(&idx_struct_arr[i]));
     }
     for (auto &thread : threads)
     {
         pthread_join(thread, nullptr);
     }
+}
+
+void *worker(void *data)
+{
+    struct idx_struct *p = reinterpret_cast<idx_struct *>(data);
+    // Part One
+    for (size_t i = p->st_idx; i < p->end_idx; i++)
+    {
+        for (size_t j = 0; j < pool.size(); ++j)
+        {
+            if (i == j)
+                continue;
+            // save the changes in body i's position and velocity
+            pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+        }
+    }
+    pthread_barrier_wait(&barrier);
+    // Part Two
+    for (size_t i = p->st_idx; i < p->end_idx; i++)
+    {
+        // update body i's position and velocity using the saved changes in Part One
+        pool.get_body(i).update_by_delta_vector();
+        pool.get_body(i).update_for_tick(elapse, space, radius);
+    }
+    return nullptr;
+}
+```
+## OpenMP Implementation
+| ![Figure 3](openmp-implementation.png) |
+| :------------------------------------: |
+|    Figure 3: OpenMP Implementation     |
+
+Similar to Pthread implementation, the OpenMP implementation contains the following steps:
+1. Split Part One among working threads, and each working thread gets one or more bodies.
+2. Each working thread runs Part One. After all working threads have finished Part One, they start to run Part Two.
+```cpp
+void schedule()
+{
+    pool.clear_acceleration();
+    pool.init_delta_vector();
+    // Part One
+#pragma omp parallel for shared(pool)
+    for (size_t i = 0; i < pool.size(); ++i)
+    {
+        for (size_t j = 0; j < pool.size(); ++j)
+        {
+            if (i == j)
+                continue;
+            // save the changes in body i's position and velocity
+            pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
+        }
+    }
+    // Part Two
+#pragma omp parallel for shared(pool)
+    for (size_t i = 0; i < pool.size(); ++i)
+    {
+        // update body i's position and velocity using the saved changes in Part One
+        pool.get_body(i).update_by_delta_vector();
+        pool.get_body(i).update_for_tick(elapse, space, radius);
+    }
+}
+```
+## CUDA Implementation
+| ![Figure 4](cuda-implementation.png) |
+| :----------------------------------: |
+|    Figure 4: CUDA Implementation     |
+
+
+Similar to Pthread implementation, the OpenMP implementation contains the following steps:
+1. Create a block with many threads using CUDA.
+1. Each thread gets its bodies range.
+2. Each thread runs Part One, and wait until all child threads complete Part One. Then run Part Two.
+```cpp
+// worker() is called in this way:
+int main()
+{
+    dim3 grid(1);
+    dim3 block(thread_num);
+    worker<<<grid, block>>>();
+}
+
+__global__ void worker()
+{
+    int thread_id = threadIdx.x;
+    int elements_per_thread = pool->size / thread_num;
+    int st_idx = elements_per_thread * thread_id;
+    int end_idx = st_idx + elements_per_thread;
+    if (thread_id == thread_num - 1)
+        end_idx = pool->size;
+    // Part One
+    for (int i = st_idx; i < end_idx; i++)
+    {
+        for (int j = 0; j < pool->size; ++j)
+        {
+            if (i == j)
+                continue;
+            // save the changes in body i's position and velocity
+            pool->shared_memory_check_and_update(pool->get_body(i), pool->get_body(j), radius, gravity);
+        }
+    }
+    __syncthreads();
+    // Part Two
+    for (int i = st_idx; i < end_idx; i++)
+    {
+        // update body i's position and velocity using the saved changes in Part One
+        pool->get_body(i).update_by_delta_var();
+        pool->get_body(i).update_for_tick(elapse, space, radius);
+    }
+}
+```
+## Hybrid Implementation
+|     ![Figure 5](hybrid-implementation.png)     |
+| :--------------------------------------------: |
+| Figure 5: Hybrid MPI and OpenMP Implementation |
+
+```cpp
+void worker(int rank, int world_size)
+{
+    // Preparation: Broadcast all bodies to all processes
+    // ...
+    // Part One
+#pragma omp parallel for shared(pool)
+    for (size_t i = st_idx; i < end_idx; i++)
+    {
+        for (size_t j = 0; j < pool.size(); j++)
+        {
+            if (i == j)
+                continue;
+            // update body i's position and velocity immediately
+            pool.mpi_check_and_update(pool.get_body(i), pool.get_body(j), local_radius, local_gravity);
+        }
+    }
+#pragma omp parallel for shared(pool)
+    // Step 2
+    for (size_t i = st_idx; i < end_idx; i++)
+    {
+        pool.get_body(i).update_for_tick(local_elapse, local_space, local_radius);
+    }
+    // Gather bodies data to the root process
+    // ...
+
 }
 ```
 # Results
@@ -316,3 +370,4 @@ Compared to the MPI version, the speed is much smaller.
 # Conclusion
 By working on this assignment, I gain a deeper and better understanding of parallel programming. Not only the algorithm should be considered, but also the underlying hardware structure. Compared to MPI, Pthread is easier to implement, and it requires a shared memory hardware architecture. I compared different kinds of Load balancing algorithms and decided to choose the Master-Worker Scheme. 
 # References
+- https://openmp.org/wp-content/uploads/HybridPP_Slides.pdf
