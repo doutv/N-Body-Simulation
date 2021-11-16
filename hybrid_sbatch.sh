@@ -25,7 +25,7 @@ do
         echo "using ${task} tasks and ${thread} threads with size ${size}"
         echo "#!/bin/bash" > $file
         echo "export LD_LIBRARY_PATH=${dir}/build/" >> $file
-        echo "mpirun -n {task} ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
+        echo "mpirun -n ${task} ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
         echo "sbatch file: ${file}"
         cat $file
         sbatch --wait --account=csc4005 --partition=debug --qos=normal --ntasks=${task} --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
