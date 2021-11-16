@@ -29,7 +29,7 @@ file(GLOB IMGUI_SRC
         imgui/misc/freetype/imgui_freetype.cpp
         imgui/misc/cpp/imgui_stdlib.cpp
         )
-add_library(core STATIC ${IMGUI_SRC})
+add_library(core STATIC ${IMGUI_SRC} src/pthread_barrier.c)
 get_filename_component(FONT_PATH imgui/misc/fonts/DroidSans.ttf ABSOLUTE)
 target_link_libraries(core PUBLIC
     Freetype::Freetype SDL2::SDL2 
@@ -41,12 +41,12 @@ target_compile_definitions(core PUBLIC -DImDrawIdx=unsigned)
 target_compile_options(core PUBLIC)
 target_compile_definitions(core PUBLIC -DFONT_PATH=\"${FONT_PATH}\")
 
-add_executable(pthread_imgui src/graphic.cpp src/pthread_imgui.cpp)
+add_executable(pthread_imgui src/graphic.cpp src/pthread_imgui.cpp src/pthread_barrier.c)
 target_link_libraries(pthread_imgui core)
 target_compile_options(pthread_imgui PRIVATE -Werror -Wall -Wextra -Wpedantic)
-add_executable(pthread src/pthread.cpp)
-target_link_libraries(pthread core)
-target_compile_options(pthread PRIVATE -Werror -Wall -Wextra -Wpedantic)
+# add_executable(pthread src/pthread.cpp)
+# target_link_libraries(pthread core)
+# target_compile_options(pthread PRIVATE -Werror -Wall -Wextra -Wpedantic)
 
 add_executable(mpi_imgui src/graphic.cpp src/mpi_imgui.cpp)
 target_link_libraries(mpi_imgui core)

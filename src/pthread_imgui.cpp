@@ -2,7 +2,8 @@
 #include <imgui_impl_sdl.h>
 #include <cstring>
 #include <nbody/body.hpp>
-#include <pthread.h>
+#include "pthread_barrier.h"
+// #include <pthread.h>
 #include <vector>
 
 template <typename... Args>
@@ -91,6 +92,5 @@ int main(int argc, char **argv)
                             draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                         }
                     }
-                    ImGui::End();
-                });
+                    ImGui::End(); });
 }
