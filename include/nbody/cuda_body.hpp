@@ -29,7 +29,7 @@ class BodyPool : public Managed
 public:
     // provides in this way so that
     // it is easier for you to send a the vector with MPI
-    static const size_t max_size = 2000;
+    static const size_t max_size = 10005;
     double x[max_size];
     double y[max_size];
     double vx[max_size];
