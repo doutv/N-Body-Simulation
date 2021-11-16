@@ -1,0 +1,1149 @@
+world size----4
+
+thread number: 1
+problem size: 200
+duration(ns/round): 276918
+rounds: 1
+
+
+
+
+
+thread number: 1
+problem size: 1000
+duration(ns/round): 2751106
+rounds: 1
+
+
+
+
+
+thread number: 1
+problem size: 5000
+duration(ns/round): 64701771
+rounds: 1
+
+
+
+
+
+thread number: 1
+problem size: 10000
+duration(ns/round): 272594322
+rounds: 1
+
+
+
+
+
+thread number: 2
+problem size: 200
+duration(ns/round): 285859
+rounds: 1
+
+
+
+
+
+thread number: 2
+problem size: 1000
+duration(ns/round): 2044633
+rounds: 1
+
+
+
+
+
+thread number: 2
+problem size: 5000
+duration(ns/round): 33040778
+rounds: 1
+
+
+
+
+
+thread number: 2
+problem size: 10000
+duration(ns/round): 138578333
+rounds: 1
+
+
+
+
+
+thread number: 3
+problem size: 200
+duration(ns/round): 2339909
+rounds: 1
+
+
+
+
+
+thread number: 3
+problem size: 1000
+duration(ns/round): 1265657
+rounds: 1
+
+
+
+
+
+thread number: 3
+problem size: 5000
+duration(ns/round): 26195463
+rounds: 1
+
+
+
+
+
+thread number: 3
+problem size: 10000
+duration(ns/round): 94259154
+rounds: 1
+
+
+
+
+
+thread number: 4
+problem size: 200
+duration(ns/round): 677438
+rounds: 1
+
+
+
+
+
+thread number: 4
+problem size: 1000
+duration(ns/round): 1970390
+rounds: 1
+
+
+
+
+
+thread number: 4
+problem size: 5000
+duration(ns/round): 23333497
+rounds: 1
+
+
+
+
+
+thread number: 4
+problem size: 10000
+duration(ns/round): 73919884
+rounds: 1
+
+
+
+
+
+thread number: 5
+problem size: 200
+duration(ns/round): 5731161
+rounds: 1
+
+
+
+
+
+thread number: 5
+problem size: 1000
+duration(ns/round): 3637925
+rounds: 1
+
+
+
+
+
+thread number: 5
+problem size: 5000
+duration(ns/round): 27356218
+rounds: 1
+
+
+
+
+
+thread number: 5
+problem size: 10000
+duration(ns/round): 57770289
+rounds: 1
+
+
+
+
+
+thread number: 6
+problem size: 200
+duration(ns/round): 1784278
+rounds: 1
+
+
+
+
+
+thread number: 6
+problem size: 1000
+duration(ns/round): 2660736
+rounds: 1
+
+
+
+
+
+thread number: 6
+problem size: 5000
+duration(ns/round): 12399731
+rounds: 1
+
+
+
+
+
+thread number: 6
+problem size: 10000
+duration(ns/round): 49014062
+rounds: 1
+
+
+
+
+
+thread number: 7
+problem size: 200
+duration(ns/round): 6014037
+rounds: 1
+
+
+
+
+
+thread number: 7
+problem size: 1000
+duration(ns/round): 3297898
+rounds: 1
+
+
+
+
+
+thread number: 7
+problem size: 5000
+duration(ns/round): 10647190
+rounds: 1
+
+
+
+
+
+thread number: 7
+problem size: 10000
+duration(ns/round): 45068364
+rounds: 1
+
+
+
+
+
+thread number: 8
+problem size: 200
+duration(ns/round): 3890436
+rounds: 1
+
+
+
+
+
+thread number: 8
+problem size: 1000
+duration(ns/round): 1251693
+rounds: 1
+
+
+
+
+
+thread number: 8
+problem size: 5000
+duration(ns/round): 16314632
+rounds: 1
+
+
+
+
+
+thread number: 8
+problem size: 10000
+duration(ns/round): 38498778
+rounds: 1
+
+
+
+
+
+thread number: 9
+problem size: 200
+duration(ns/round): 14410716
+rounds: 1
+
+
+
+
+
+thread number: 9
+problem size: 1000
+duration(ns/round): 23806968
+rounds: 1
+
+
+
+
+
+thread number: 9
+problem size: 5000
+duration(ns/round): 31502942
+rounds: 1
+
+
+
+
+
+thread number: 9
+problem size: 10000
+duration(ns/round): 61485982
+rounds: 1
+
+
+
+
+
+thread number: 10
+problem size: 200
+duration(ns/round): 14559681
+rounds: 1
+
+
+
+
+
+thread number: 10
+problem size: 1000
+duration(ns/round): 21711204
+rounds: 1
+
+
+
+
+
+thread number: 10
+problem size: 5000
+duration(ns/round): 33790970
+rounds: 1
+
+
+
+
+
+thread number: 10
+problem size: 10000
+duration(ns/round): 65816664
+rounds: 1
+
+
+
+
+
+thread number: 11
+problem size: 200
+duration(ns/round): 27621887
+rounds: 1
+
+
+
+
+
+thread number: 11
+problem size: 1000
+duration(ns/round): 21610048
+rounds: 1
+
+
+
+
+
+thread number: 11
+problem size: 5000
+duration(ns/round): 33273327
+rounds: 1
+
+
+
+
+
+thread number: 11
+problem size: 10000
+duration(ns/round): 67087539
+rounds: 1
+
+
+
+
+
+thread number: 12
+problem size: 200
+duration(ns/round): 32763854
+rounds: 1
+
+
+
+
+
+thread number: 12
+problem size: 1000
+duration(ns/round): 38201105
+rounds: 1
+
+
+
+
+
+thread number: 12
+problem size: 5000
+duration(ns/round): 39721356
+rounds: 1
+
+
+
+
+
+thread number: 12
+problem size: 10000
+duration(ns/round): 67334034
+rounds: 1
+
+
+
+
+
+thread number: 13
+problem size: 200
+duration(ns/round): 29843105
+rounds: 1
+
+
+
+
+
+thread number: 13
+problem size: 1000
+duration(ns/round): 30848226
+rounds: 1
+
+
+
+
+
+thread number: 13
+problem size: 5000
+duration(ns/round): 45459482
+rounds: 1
+
+
+
+
+
+thread number: 13
+problem size: 10000
+duration(ns/round): 72725993
+rounds: 1
+
+
+
+
+
+thread number: 14
+problem size: 200
+duration(ns/round): 38344678
+rounds: 1
+
+
+
+
+
+thread number: 14
+problem size: 1000
+duration(ns/round): 35676183
+rounds: 1
+
+
+
+
+
+thread number: 14
+problem size: 5000
+duration(ns/round): 49927904
+rounds: 1
+
+
+
+
+
+thread number: 14
+problem size: 10000
+duration(ns/round): 74677143
+rounds: 1
+
+
+
+
+
+thread number: 15
+problem size: 200
+duration(ns/round): 40789711
+rounds: 1
+
+
+
+
+
+thread number: 15
+problem size: 1000
+duration(ns/round): 40523997
+rounds: 1
+
+
+
+
+
+thread number: 15
+problem size: 5000
+duration(ns/round): 57513894
+rounds: 1
+
+
+
+
+
+thread number: 15
+problem size: 10000
+duration(ns/round): 79499738
+rounds: 1
+
+
+
+
+
+thread number: 16
+problem size: 200
+duration(ns/round): 53231024
+rounds: 1
+
+
+
+
+
+thread number: 16
+problem size: 1000
+duration(ns/round): 52479956
+rounds: 1
+
+
+
+
+
+thread number: 16
+problem size: 5000
+duration(ns/round): 55044958
+rounds: 1
+
+
+
+
+
+thread number: 16
+problem size: 10000
+duration(ns/round): 84810694
+rounds: 1
+
+
+
+
+
+thread number: 17
+problem size: 200
+duration(ns/round): 873819
+rounds: 1
+
+
+
+
+
+thread number: 17
+problem size: 1000
+duration(ns/round): 1467510
+rounds: 1
+
+
+
+
+
+thread number: 17
+problem size: 5000
+duration(ns/round): 13029449
+rounds: 1
+
+
+
+
+
+thread number: 17
+problem size: 10000
+duration(ns/round): 48895027
+rounds: 1
+
+
+
+
+
+thread number: 18
+problem size: 200
+duration(ns/round): 1233991
+rounds: 1
+
+
+
+
+
+thread number: 18
+problem size: 1000
+duration(ns/round): 1671838
+rounds: 1
+
+
+
+
+
+thread number: 18
+problem size: 5000
+duration(ns/round): 13455307
+rounds: 1
+
+
+
+
+
+thread number: 18
+problem size: 10000
+duration(ns/round): 44990680
+rounds: 1
+
+
+
+
+
+thread number: 19
+problem size: 200
+duration(ns/round): 3525493
+rounds: 1
+
+
+
+
+
+thread number: 19
+problem size: 1000
+duration(ns/round): 1749147
+rounds: 1
+
+
+
+
+
+thread number: 19
+problem size: 5000
+duration(ns/round): 12457619
+rounds: 1
+
+
+
+
+
+thread number: 19
+problem size: 10000
+duration(ns/round): 46586118
+rounds: 1
+
+
+
+
+
+thread number: 20
+problem size: 200
+duration(ns/round): 1069770
+rounds: 1
+
+
+
+
+
+thread number: 20
+problem size: 1000
+duration(ns/round): 1984118
+rounds: 1
+
+
+
+
+
+thread number: 20
+problem size: 5000
+duration(ns/round): 12057566
+rounds: 1
+
+
+
+
+
+thread number: 20
+problem size: 10000
+duration(ns/round): 47292569
+rounds: 1
+
+
+
+
+
+thread number: 21
+problem size: 200
+duration(ns/round): 1130512
+rounds: 1
+
+
+
+
+
+thread number: 21
+problem size: 1000
+duration(ns/round): 1892889
+rounds: 1
+
+
+
+
+
+thread number: 21
+problem size: 5000
+duration(ns/round): 13024327
+rounds: 1
+
+
+
+
+
+thread number: 21
+problem size: 10000
+duration(ns/round): 42952907
+rounds: 1
+
+
+
+
+
+thread number: 22
+problem size: 200
+duration(ns/round): 1081529
+rounds: 1
+
+
+
+
+
+thread number: 22
+problem size: 1000
+duration(ns/round): 2078686
+rounds: 1
+
+
+
+
+
+thread number: 22
+problem size: 5000
+duration(ns/round): 11606467
+rounds: 1
+
+
+
+
+
+thread number: 22
+problem size: 10000
+duration(ns/round): 41171575
+rounds: 1
+
+
+
+
+
+thread number: 23
+problem size: 200
+duration(ns/round): 1275311
+rounds: 1
+
+
+
+
+
+thread number: 23
+problem size: 1000
+duration(ns/round): 1892983
+rounds: 1
+
+
+
+
+
+thread number: 23
+problem size: 5000
+duration(ns/round): 12271230
+rounds: 1
+
+
+
+
+
+thread number: 23
+problem size: 10000
+duration(ns/round): 44437176
+rounds: 1
+
+
+
+
+
+thread number: 24
+problem size: 200
+duration(ns/round): 1094467
+rounds: 1
+
+
+
+
+
+thread number: 24
+problem size: 1000
+duration(ns/round): 2181660
+rounds: 1
+
+
+
+
+
+thread number: 24
+problem size: 5000
+duration(ns/round): 13098687
+rounds: 1
+
+
+
+
+
+thread number: 24
+problem size: 10000
+duration(ns/round): 45075426
+rounds: 1
+
+
+
+
+
+thread number: 25
+problem size: 200
+duration(ns/round): 1806400
+rounds: 1
+
+
+
+
+
+thread number: 25
+problem size: 1000
+duration(ns/round): 2056519
+rounds: 1
+
+
+
+
+
+thread number: 25
+problem size: 5000
+duration(ns/round): 12335696
+rounds: 1
+
+
+
+
+
+thread number: 25
+problem size: 10000
+duration(ns/round): 44371239
+rounds: 1
+
+
+
+
+
+thread number: 26
+problem size: 200
+duration(ns/round): 1331921
+rounds: 1
+
+
+
+
+
+thread number: 26
+problem size: 1000
+duration(ns/round): 1961367
+rounds: 1
+
+
+
+
+
+thread number: 26
+problem size: 5000
+duration(ns/round): 14029813
+rounds: 1
+
+
+
+
+
+thread number: 26
+problem size: 10000
+duration(ns/round): 43999492
+rounds: 1
+
+
+
+
+
+thread number: 27
+problem size: 200
+duration(ns/round): 1410954
+rounds: 1
+
+
+
+
+
+thread number: 27
+problem size: 1000
+duration(ns/round): 2013467
+rounds: 1
+
+
+
+
+
+thread number: 27
+problem size: 5000
+duration(ns/round): 13914379
+rounds: 1
+
+
+
+
+
+thread number: 27
+problem size: 10000
+duration(ns/round): 42581233
+rounds: 1
+
+
+
+
+
+thread number: 28
+problem size: 200
+duration(ns/round): 2472069
+rounds: 1
+
+
+
+
+
+thread number: 28
+problem size: 1000
+duration(ns/round): 2119902
+rounds: 1
+
+
+
+
+
+thread number: 28
+problem size: 5000
+duration(ns/round): 15884726
+rounds: 1
+
+
+
+
+
+thread number: 28
+problem size: 10000
+duration(ns/round): 43165989
+rounds: 1
+
+
+
+
+
+thread number: 29
+problem size: 200
+duration(ns/round): 1259395
+rounds: 1
+
+
+
+
+
+thread number: 29
+problem size: 1000
+duration(ns/round): 2090023
+rounds: 1
+
+
+
+
+
+thread number: 29
+problem size: 5000
+duration(ns/round): 12949169
+rounds: 1
+
+
+
+
+
+thread number: 29
+problem size: 10000
+duration(ns/round): 44889524
+rounds: 1
+
+
+
+
+
+thread number: 30
+problem size: 200
+duration(ns/round): 1394913
+rounds: 1
+
+
+
+
+
+thread number: 30
+problem size: 1000
+duration(ns/round): 2181229
+rounds: 1
+
+
+
+
+
+thread number: 30
+problem size: 5000
+duration(ns/round): 12838439
+rounds: 1
+
+
+
+
+
+thread number: 30
+problem size: 10000
+duration(ns/round): 42789430
+rounds: 1
+
+
+
+
+
+thread number: 31
+problem size: 200
+duration(ns/round): 1341671
+rounds: 1
+
+
+
+
+
+thread number: 31
+problem size: 1000
+duration(ns/round): 2175545
+rounds: 1
+
+
+
+
+
+thread number: 31
+problem size: 5000
+duration(ns/round): 12342442
+rounds: 1
+
+
+
+
+
+thread number: 31
+problem size: 10000
+duration(ns/round): 43094026
+rounds: 1
+
+
+
+
+
+thread number: 32
+problem size: 200
+duration(ns/round): 1351818
+rounds: 1
+
+
+
+
+
+thread number: 32
+problem size: 1000
+duration(ns/round): 2301419
+rounds: 1
+
+
+
+
+
+thread number: 32
+problem size: 5000
+duration(ns/round): 12403594
+rounds: 10
+
+
+
+
+
+thread number: 32
+problem size: 10000
+duration(ns/round): 43032572
+rounds: 1

@@ -1,0 +1,2048 @@
+world size: 1
+problem size: 200
+duration(ns/round): 379560
+rounds: 10
+world size: 1
+problem size: 1000
+duration(ns/round): 9437925
+rounds: 10
+world size: 1
+problem size: 5000
+duration(ns/round): 235465862
+rounds: 10
+world size: 1
+problem size: 10000
+duration(ns/round): 943708047
+rounds: 10
+world size: 2
+problem size: 200
+duration(ns/round): 235336
+rounds: 10
+world size: 2
+problem size: 1000
+duration(ns/round): 4834618
+rounds: 10
+world size: 2
+problem size: 5000
+duration(ns/round): 129647905
+rounds: 10
+world size: 2
+problem size: 10000
+duration(ns/round): 583918685
+rounds: 10
+world size: 3
+problem size: 200
+duration(ns/round): 183530
+rounds: 10
+world size: 3
+problem size: 1000
+duration(ns/round): 3270471
+rounds: 10
+world size: 3
+problem size: 5000
+duration(ns/round): 85184353
+rounds: 10
+world size: 3
+problem size: 10000
+duration(ns/round): 372648765
+rounds: 10
+world size: 4
+problem size: 200
+duration(ns/round): 725631
+rounds: 10
+world size: 4
+problem size: 1000
+duration(ns/round): 2846627
+rounds: 10
+world size: 4
+problem size: 5000
+duration(ns/round): 64430818
+rounds: 10
+world size: 4
+problem size: 10000
+duration(ns/round): 268047620
+rounds: 10
+world size: 5
+problem size: 200
+duration(ns/round): 373269
+rounds: 10
+world size: 5
+problem size: 1000
+duration(ns/round): 2019206
+rounds: 10
+world size: 5
+problem size: 5000
+duration(ns/round): 50124743
+rounds: 10
+world size: 5
+problem size: 10000
+duration(ns/round): 212199303
+rounds: 10
+world size: 6
+problem size: 200
+duration(ns/round): 1226832
+rounds: 10
+world size: 6
+problem size: 1000
+duration(ns/round): 1992083
+rounds: 10
+world size: 6
+problem size: 5000
+duration(ns/round): 42642555
+rounds: 10
+world size: 6
+problem size: 10000
+duration(ns/round): 174391504
+rounds: 10
+world size: 7
+problem size: 200
+duration(ns/round): 451104
+rounds: 10
+world size: 7
+problem size: 1000
+duration(ns/round): 1861351
+rounds: 10
+world size: 7
+problem size: 5000
+duration(ns/round): 36598452
+rounds: 10
+world size: 7
+problem size: 10000
+duration(ns/round): 148607842
+rounds: 10
+world size: 8
+problem size: 200
+duration(ns/round): 1332907
+rounds: 10
+world size: 8
+problem size: 1000
+duration(ns/round): 2533560
+rounds: 10
+world size: 8
+problem size: 5000
+duration(ns/round): 32052974
+rounds: 10
+world size: 8
+problem size: 10000
+duration(ns/round): 129302905
+rounds: 10
+world size: 9
+problem size: 200
+duration(ns/round): 980017
+rounds: 10
+world size: 9
+problem size: 1000
+duration(ns/round): 1679087
+rounds: 10
+world size: 9
+problem size: 5000
+duration(ns/round): 28841210
+rounds: 10
+world size: 9
+problem size: 10000
+duration(ns/round): 114208356
+rounds: 10
+world size: 10
+problem size: 200
+duration(ns/round): 979034
+rounds: 10
+world size: 10
+problem size: 1000
+duration(ns/round): 1282561
+rounds: 10
+world size: 10
+problem size: 5000
+duration(ns/round): 25853307
+rounds: 10
+world size: 10
+problem size: 10000
+duration(ns/round): 102413898
+rounds: 10
+world size: 11
+problem size: 200
+duration(ns/round): 1197419
+rounds: 10
+world size: 11
+problem size: 1000
+duration(ns/round): 1524509
+rounds: 10
+world size: 11
+problem size: 5000
+duration(ns/round): 23185648
+rounds: 10
+world size: 11
+problem size: 10000
+duration(ns/round): 92867500
+rounds: 10
+world size: 12
+problem size: 200
+duration(ns/round): 1099681
+rounds: 10
+world size: 12
+problem size: 1000
+duration(ns/round): 2203066
+rounds: 10
+world size: 12
+problem size: 5000
+duration(ns/round): 21940142
+rounds: 10
+world size: 12
+problem size: 10000
+duration(ns/round): 84870590
+rounds: 10
+world size: 13
+problem size: 200
+duration(ns/round): 1094265
+rounds: 10
+world size: 13
+problem size: 1000
+duration(ns/round): 2003499
+rounds: 10
+world size: 13
+problem size: 5000
+duration(ns/round): 20404723
+rounds: 10
+world size: 13
+problem size: 10000
+duration(ns/round): 78216738
+rounds: 10
+world size: 14
+problem size: 200
+duration(ns/round): 1349335
+rounds: 10
+world size: 14
+problem size: 1000
+duration(ns/round): 2114105
+rounds: 10
+world size: 14
+problem size: 5000
+duration(ns/round): 19116700
+rounds: 10
+world size: 14
+problem size: 10000
+duration(ns/round): 72694740
+rounds: 10
+world size: 15
+problem size: 200
+duration(ns/round): 1032481
+rounds: 10
+world size: 15
+problem size: 1000
+duration(ns/round): 1956080
+rounds: 10
+world size: 15
+problem size: 5000
+duration(ns/round): 18197795
+rounds: 10
+world size: 15
+problem size: 10000
+duration(ns/round): 68526861
+rounds: 10
+world size: 16
+problem size: 200
+duration(ns/round): 1463506
+rounds: 10
+world size: 16
+problem size: 1000
+duration(ns/round): 2148353
+rounds: 10
+world size: 16
+problem size: 5000
+duration(ns/round): 17212679
+rounds: 10
+world size: 16
+problem size: 10000
+duration(ns/round): 63546627
+rounds: 10
+world size: 17
+problem size: 200
+duration(ns/round): 1335193
+rounds: 10
+world size: 17
+problem size: 1000
+duration(ns/round): 2063778
+rounds: 10
+world size: 17
+problem size: 5000
+duration(ns/round): 16301696
+rounds: 10
+world size: 17
+problem size: 10000
+duration(ns/round): 60177097
+rounds: 10
+world size: 18
+problem size: 200
+duration(ns/round): 1239253
+rounds: 10
+world size: 18
+problem size: 1000
+duration(ns/round): 1903559
+rounds: 10
+world size: 18
+problem size: 5000
+duration(ns/round): 15897962
+rounds: 10
+world size: 18
+problem size: 10000
+duration(ns/round): 57133587
+rounds: 10
+world size: 19
+problem size: 200
+duration(ns/round): 1531483
+rounds: 10
+world size: 19
+problem size: 1000
+duration(ns/round): 1931833
+rounds: 10
+world size: 19
+problem size: 5000
+duration(ns/round): 14720742
+rounds: 10
+world size: 19
+problem size: 10000
+duration(ns/round): 53990032
+rounds: 10
+world size: 20
+problem size: 200
+duration(ns/round): 1321138
+rounds: 10
+world size: 20
+problem size: 1000
+duration(ns/round): 2020307
+rounds: 10
+world size: 20
+problem size: 5000
+duration(ns/round): 14098466
+rounds: 10
+world size: 20
+problem size: 10000
+duration(ns/round): 51331467
+rounds: 10
+world size: 21
+problem size: 200
+duration(ns/round): 1381795
+rounds: 10
+world size: 21
+problem size: 1000
+duration(ns/round): 1928778
+rounds: 10
+world size: 21
+problem size: 5000
+duration(ns/round): 13191654
+rounds: 10
+world size: 21
+problem size: 10000
+duration(ns/round): 48948243
+rounds: 10
+world size: 22
+problem size: 200
+duration(ns/round): 1507040
+rounds: 10
+world size: 22
+problem size: 1000
+duration(ns/round): 2331261
+rounds: 10
+world size: 22
+problem size: 5000
+duration(ns/round): 13197893
+rounds: 10
+world size: 22
+problem size: 10000
+duration(ns/round): 47472039
+rounds: 10
+world size: 23
+problem size: 200
+duration(ns/round): 1127895
+rounds: 10
+world size: 23
+problem size: 1000
+duration(ns/round): 2247016
+rounds: 10
+world size: 23
+problem size: 5000
+duration(ns/round): 12438369
+rounds: 10
+world size: 23
+problem size: 10000
+duration(ns/round): 46003735
+rounds: 10
+world size: 24
+problem size: 200
+duration(ns/round): 1560710
+rounds: 10
+world size: 24
+problem size: 1000
+duration(ns/round): 1783840
+rounds: 10
+world size: 24
+problem size: 5000
+duration(ns/round): 12501300
+rounds: 10
+world size: 24
+problem size: 10000
+duration(ns/round): 44104874
+rounds: 10
+world size: 25
+problem size: 200
+duration(ns/round): 1171729
+rounds: 10
+world size: 25
+problem size: 1000
+duration(ns/round): 2261130
+rounds: 10
+world size: 25
+problem size: 5000
+duration(ns/round): 12148210
+rounds: 10
+world size: 25
+problem size: 10000
+duration(ns/round): 41245459
+rounds: 10
+world size: 26
+problem size: 200
+duration(ns/round): 1619771
+rounds: 10
+world size: 26
+problem size: 1000
+duration(ns/round): 2199863
+rounds: 10
+world size: 26
+problem size: 5000
+duration(ns/round): 11816036
+rounds: 10
+world size: 26
+problem size: 10000
+duration(ns/round): 40650675
+rounds: 10
+world size: 27
+problem size: 200
+duration(ns/round): 1223086
+rounds: 10
+world size: 27
+problem size: 1000
+duration(ns/round): 2035040
+rounds: 10
+world size: 27
+problem size: 5000
+duration(ns/round): 11437030
+rounds: 10
+world size: 27
+problem size: 10000
+duration(ns/round): 39102172
+rounds: 10
+world size: 28
+problem size: 200
+duration(ns/round): 1628365
+rounds: 10
+world size: 28
+problem size: 1000
+duration(ns/round): 2183440
+rounds: 10
+world size: 28
+problem size: 5000
+duration(ns/round): 11417480
+rounds: 10
+world size: 28
+problem size: 10000
+duration(ns/round): 37516871
+rounds: 10
+world size: 29
+problem size: 200
+duration(ns/round): 1667850
+rounds: 10
+world size: 29
+problem size: 1000
+duration(ns/round): 2149833
+rounds: 10
+world size: 29
+problem size: 5000
+duration(ns/round): 10975780
+rounds: 10
+world size: 29
+problem size: 10000
+duration(ns/round): 37807488
+rounds: 10
+world size: 30
+problem size: 200
+duration(ns/round): 1758491
+rounds: 10
+world size: 30
+problem size: 1000
+duration(ns/round): 2120557
+rounds: 10
+world size: 30
+problem size: 5000
+duration(ns/round): 11180528
+rounds: 10
+world size: 30
+problem size: 10000
+duration(ns/round): 35990187
+rounds: 10
+world size: 31
+problem size: 200
+duration(ns/round): 1818733
+rounds: 10
+world size: 31
+problem size: 1000
+duration(ns/round): 2366120
+rounds: 10
+world size: 31
+problem size: 5000
+duration(ns/round): 10426976
+rounds: 10
+world size: 31
+problem size: 10000
+duration(ns/round): 35170391
+rounds: 10
+world size: 32
+problem size: 200
+duration(ns/round): 1735254
+rounds: 10
+world size: 32
+problem size: 1000
+duration(ns/round): 2190930
+rounds: 10
+world size: 32
+problem size: 5000
+duration(ns/round): 10177076
+rounds: 10
+world size: 32
+problem size: 10000
+duration(ns/round): 34317489
+rounds: 10
+world size: 33
+problem size: 200
+duration(ns/round): 1852160
+rounds: 10
+world size: 33
+problem size: 1000
+duration(ns/round): 2155434
+rounds: 10
+world size: 33
+problem size: 5000
+duration(ns/round): 10170713
+rounds: 10
+world size: 33
+problem size: 10000
+duration(ns/round): 32418399
+rounds: 10
+world size: 34
+problem size: 200
+duration(ns/round): 1630449
+rounds: 10
+world size: 34
+problem size: 1000
+duration(ns/round): 2557992
+rounds: 10
+world size: 34
+problem size: 5000
+duration(ns/round): 9642001
+rounds: 10
+world size: 34
+problem size: 10000
+duration(ns/round): 31489000
+rounds: 10
+world size: 35
+problem size: 200
+duration(ns/round): 1830038
+rounds: 10
+world size: 35
+problem size: 1000
+duration(ns/round): 2182327
+rounds: 10
+world size: 35
+problem size: 5000
+duration(ns/round): 10474911
+rounds: 10
+world size: 35
+problem size: 10000
+duration(ns/round): 32185879
+rounds: 10
+world size: 36
+problem size: 200
+duration(ns/round): 1680283
+rounds: 10
+world size: 36
+problem size: 1000
+duration(ns/round): 2222714
+rounds: 10
+world size: 36
+problem size: 5000
+duration(ns/round): 10277341
+rounds: 10
+world size: 36
+problem size: 10000
+duration(ns/round): 31867727
+rounds: 10
+world size: 37
+problem size: 200
+duration(ns/round): 1783789
+rounds: 10
+world size: 37
+problem size: 1000
+duration(ns/round): 2145372
+rounds: 10
+world size: 37
+problem size: 5000
+duration(ns/round): 9343457
+rounds: 10
+world size: 37
+problem size: 10000
+duration(ns/round): 29409778
+rounds: 10
+world size: 38
+problem size: 200
+duration(ns/round): 1739128
+rounds: 10
+world size: 38
+problem size: 1000
+duration(ns/round): 2172994
+rounds: 10
+world size: 38
+problem size: 5000
+duration(ns/round): 9487371
+rounds: 10
+world size: 38
+problem size: 10000
+duration(ns/round): 28394853
+rounds: 10
+world size: 39
+problem size: 200
+duration(ns/round): 1786002
+rounds: 10
+world size: 39
+problem size: 1000
+duration(ns/round): 2434647
+rounds: 10
+world size: 39
+problem size: 5000
+duration(ns/round): 8751779
+rounds: 10
+world size: 39
+problem size: 10000
+duration(ns/round): 28754956
+rounds: 10
+world size: 40
+problem size: 200
+duration(ns/round): 1759321
+rounds: 10
+world size: 40
+problem size: 1000
+duration(ns/round): 2436817
+rounds: 10
+world size: 40
+problem size: 5000
+duration(ns/round): 9031575
+rounds: 10
+world size: 40
+problem size: 10000
+duration(ns/round): 27398471
+rounds: 10
+world size: 41
+problem size: 200
+duration(ns/round): 1590378
+rounds: 10
+world size: 41
+problem size: 1000
+duration(ns/round): 2270697
+rounds: 10
+world size: 41
+problem size: 5000
+duration(ns/round): 9767316
+rounds: 10
+world size: 41
+problem size: 10000
+duration(ns/round): 29341677
+rounds: 10
+world size: 42
+problem size: 200
+duration(ns/round): 1946973
+rounds: 10
+world size: 42
+problem size: 1000
+duration(ns/round): 2442435
+rounds: 10
+world size: 42
+problem size: 5000
+duration(ns/round): 8820181
+rounds: 10
+world size: 42
+problem size: 10000
+duration(ns/round): 26353080
+rounds: 10
+world size: 43
+problem size: 200
+duration(ns/round): 2156155
+rounds: 10
+world size: 43
+problem size: 1000
+duration(ns/round): 2527985
+rounds: 10
+world size: 43
+problem size: 5000
+duration(ns/round): 9001403
+rounds: 10
+world size: 43
+problem size: 10000
+duration(ns/round): 27412110
+rounds: 10
+world size: 44
+problem size: 200
+duration(ns/round): 1971265
+rounds: 10
+world size: 44
+problem size: 1000
+duration(ns/round): 2644603
+rounds: 10
+world size: 44
+problem size: 5000
+duration(ns/round): 9221558
+rounds: 10
+world size: 44
+problem size: 10000
+duration(ns/round): 25791238
+rounds: 10
+world size: 45
+problem size: 200
+duration(ns/round): 2229093
+rounds: 10
+world size: 45
+problem size: 1000
+duration(ns/round): 2496464
+rounds: 10
+world size: 45
+problem size: 5000
+duration(ns/round): 8749937
+rounds: 10
+world size: 45
+problem size: 10000
+duration(ns/round): 25451597
+rounds: 10
+world size: 46
+problem size: 200
+duration(ns/round): 2183625
+rounds: 10
+world size: 46
+problem size: 1000
+duration(ns/round): 2801617
+rounds: 10
+world size: 46
+problem size: 5000
+duration(ns/round): 8936418
+rounds: 10
+world size: 46
+problem size: 10000
+duration(ns/round): 25468589
+rounds: 10
+world size: 47
+problem size: 200
+duration(ns/round): 2282070
+rounds: 10
+world size: 47
+problem size: 1000
+duration(ns/round): 2567644
+rounds: 10
+world size: 47
+problem size: 5000
+duration(ns/round): 8397573
+rounds: 10
+world size: 47
+problem size: 10000
+duration(ns/round): 26280970
+rounds: 10
+world size: 48
+problem size: 200
+duration(ns/round): 2325207
+rounds: 10
+world size: 48
+problem size: 1000
+duration(ns/round): 3120267
+rounds: 10
+world size: 48
+problem size: 5000
+duration(ns/round): 7660468
+rounds: 10
+world size: 48
+problem size: 10000
+duration(ns/round): 24336976
+rounds: 10
+world size: 49
+problem size: 200
+duration(ns/round): 1785185
+rounds: 10
+world size: 49
+problem size: 1000
+duration(ns/round): 2287835
+rounds: 10
+world size: 49
+problem size: 5000
+duration(ns/round): 8193909
+rounds: 10
+world size: 49
+problem size: 10000
+duration(ns/round): 23252522
+rounds: 10
+world size: 50
+problem size: 200
+duration(ns/round): 2010593
+rounds: 10
+world size: 50
+problem size: 1000
+duration(ns/round): 2149361
+rounds: 10
+world size: 50
+problem size: 5000
+duration(ns/round): 8223322
+rounds: 10
+world size: 50
+problem size: 10000
+duration(ns/round): 22833959
+rounds: 10
+world size: 51
+problem size: 200
+duration(ns/round): 1887807
+rounds: 10
+world size: 51
+problem size: 1000
+duration(ns/round): 2304856
+rounds: 10
+world size: 51
+problem size: 5000
+duration(ns/round): 7840752
+rounds: 10
+world size: 51
+problem size: 10000
+duration(ns/round): 23023075
+rounds: 10
+world size: 52
+problem size: 200
+duration(ns/round): 2021555
+rounds: 10
+world size: 52
+problem size: 1000
+duration(ns/round): 2265545
+rounds: 10
+world size: 52
+problem size: 5000
+duration(ns/round): 7845153
+rounds: 10
+world size: 52
+problem size: 10000
+duration(ns/round): 22645392
+rounds: 10
+world size: 53
+problem size: 200
+duration(ns/round): 2559830
+rounds: 10
+world size: 53
+problem size: 1000
+duration(ns/round): 3239896
+rounds: 10
+world size: 53
+problem size: 5000
+duration(ns/round): 8384791
+rounds: 10
+world size: 53
+problem size: 10000
+duration(ns/round): 24788575
+rounds: 10
+world size: 54
+problem size: 200
+duration(ns/round): 1995631
+rounds: 10
+world size: 54
+problem size: 1000
+duration(ns/round): 3055839
+rounds: 10
+world size: 54
+problem size: 5000
+duration(ns/round): 8542762
+rounds: 10
+world size: 54
+problem size: 10000
+duration(ns/round): 22030993
+rounds: 10
+world size: 55
+problem size: 200
+duration(ns/round): 2247911
+rounds: 10
+world size: 55
+problem size: 1000
+duration(ns/round): 2407920
+rounds: 10
+world size: 55
+problem size: 5000
+duration(ns/round): 9059916
+rounds: 10
+world size: 55
+problem size: 10000
+duration(ns/round): 24521166
+rounds: 10
+world size: 56
+problem size: 200
+duration(ns/round): 2246287
+rounds: 10
+world size: 56
+problem size: 1000
+duration(ns/round): 2878512
+rounds: 10
+world size: 56
+problem size: 5000
+duration(ns/round): 8119294
+rounds: 10
+world size: 56
+problem size: 10000
+duration(ns/round): 23061904
+rounds: 10
+world size: 57
+problem size: 200
+duration(ns/round): 2365110
+rounds: 10
+world size: 57
+problem size: 1000
+duration(ns/round): 3106854
+rounds: 10
+world size: 57
+problem size: 5000
+duration(ns/round): 9391481
+rounds: 10
+world size: 57
+problem size: 10000
+duration(ns/round): 22406217
+rounds: 10
+world size: 58
+problem size: 200
+duration(ns/round): 2243289
+rounds: 10
+world size: 58
+problem size: 1000
+duration(ns/round): 2466707
+rounds: 10
+world size: 58
+problem size: 5000
+duration(ns/round): 8034820
+rounds: 10
+world size: 58
+problem size: 10000
+duration(ns/round): 21827563
+rounds: 10
+world size: 59
+problem size: 200
+duration(ns/round): 2355855
+rounds: 10
+world size: 59
+problem size: 1000
+duration(ns/round): 3267885
+rounds: 10
+world size: 59
+problem size: 5000
+duration(ns/round): 8811521
+rounds: 10
+world size: 59
+problem size: 10000
+duration(ns/round): 22107771
+rounds: 10
+world size: 60
+problem size: 200
+duration(ns/round): 2482737
+rounds: 10
+world size: 60
+problem size: 1000
+duration(ns/round): 3123630
+rounds: 10
+world size: 60
+problem size: 5000
+duration(ns/round): 7825463
+rounds: 10
+world size: 60
+problem size: 10000
+duration(ns/round): 22886665
+rounds: 10
+world size: 61
+problem size: 200
+duration(ns/round): 2355640
+rounds: 10
+world size: 61
+problem size: 1000
+duration(ns/round): 2854542
+rounds: 10
+world size: 61
+problem size: 5000
+duration(ns/round): 9743631
+rounds: 10
+world size: 61
+problem size: 10000
+duration(ns/round): 23966418
+rounds: 10
+world size: 62
+problem size: 200
+duration(ns/round): 2495640
+rounds: 10
+world size: 62
+problem size: 1000
+duration(ns/round): 3065557
+rounds: 10
+world size: 62
+problem size: 5000
+duration(ns/round): 8925576
+rounds: 10
+world size: 62
+problem size: 10000
+duration(ns/round): 20856440
+rounds: 10
+world size: 63
+problem size: 200
+duration(ns/round): 2614991
+rounds: 10
+world size: 63
+problem size: 1000
+duration(ns/round): 3467731
+rounds: 10
+world size: 63
+problem size: 5000
+duration(ns/round): 8020026
+rounds: 10
+world size: 63
+problem size: 10000
+duration(ns/round): 22572128
+rounds: 10
+world size: 64
+problem size: 200
+duration(ns/round): 2459372
+rounds: 10
+world size: 64
+problem size: 1000
+duration(ns/round): 3168933
+rounds: 10
+world size: 64
+problem size: 5000
+duration(ns/round): 8139341
+rounds: 10
+world size: 64
+problem size: 10000
+duration(ns/round): 20116898
+rounds: 10
+world size: 65
+problem size: 200
+duration(ns/round): 2559008
+rounds: 10
+world size: 65
+problem size: 1000
+duration(ns/round): 2923748
+rounds: 10
+world size: 65
+problem size: 5000
+duration(ns/round): 9071865
+rounds: 10
+world size: 65
+problem size: 10000
+duration(ns/round): 23320398
+rounds: 10
+world size: 66
+problem size: 200
+duration(ns/round): 2766984
+rounds: 10
+world size: 66
+problem size: 1000
+duration(ns/round): 2766363
+rounds: 10
+world size: 66
+problem size: 5000
+duration(ns/round): 8975051
+rounds: 10
+world size: 66
+problem size: 10000
+duration(ns/round): 20712851
+rounds: 10
+world size: 67
+problem size: 200
+duration(ns/round): 2611309
+rounds: 10
+world size: 67
+problem size: 1000
+duration(ns/round): 3390427
+rounds: 10
+world size: 67
+problem size: 5000
+duration(ns/round): 8564374
+rounds: 10
+world size: 67
+problem size: 10000
+duration(ns/round): 19419544
+rounds: 10
+world size: 68
+problem size: 200
+duration(ns/round): 2558760
+rounds: 10
+world size: 68
+problem size: 1000
+duration(ns/round): 3436169
+rounds: 10
+world size: 68
+problem size: 5000
+duration(ns/round): 8866307
+rounds: 10
+world size: 68
+problem size: 10000
+duration(ns/round): 18825880
+rounds: 10
+world size: 69
+problem size: 200
+duration(ns/round): 2842082
+rounds: 10
+world size: 69
+problem size: 1000
+duration(ns/round): 3282684
+rounds: 10
+world size: 69
+problem size: 5000
+duration(ns/round): 7978811
+rounds: 10
+world size: 69
+problem size: 10000
+duration(ns/round): 23102552
+rounds: 10
+world size: 70
+problem size: 200
+duration(ns/round): 2449733
+rounds: 10
+world size: 70
+problem size: 1000
+duration(ns/round): 3257786
+rounds: 10
+world size: 70
+problem size: 5000
+duration(ns/round): 8057906
+rounds: 10
+world size: 70
+problem size: 10000
+duration(ns/round): 22305244
+rounds: 10
+world size: 71
+problem size: 200
+duration(ns/round): 2278610
+rounds: 10
+world size: 71
+problem size: 1000
+duration(ns/round): 2775804
+rounds: 10
+world size: 71
+problem size: 5000
+duration(ns/round): 7721321
+rounds: 10
+world size: 71
+problem size: 10000
+duration(ns/round): 22181162
+rounds: 10
+world size: 72
+problem size: 200
+duration(ns/round): 2347612
+rounds: 10
+world size: 72
+problem size: 1000
+duration(ns/round): 3142298
+rounds: 10
+world size: 72
+problem size: 5000
+duration(ns/round): 7760227
+rounds: 10
+world size: 72
+problem size: 10000
+duration(ns/round): 23001747
+rounds: 10
+world size: 73
+problem size: 200
+duration(ns/round): 2294238
+rounds: 10
+world size: 73
+problem size: 1000
+duration(ns/round): 3132829
+rounds: 10
+world size: 73
+problem size: 5000
+duration(ns/round): 8086083
+rounds: 10
+world size: 73
+problem size: 10000
+duration(ns/round): 23109158
+rounds: 10
+world size: 74
+problem size: 200
+duration(ns/round): 2391323
+rounds: 10
+world size: 74
+problem size: 1000
+duration(ns/round): 3265445
+rounds: 10
+world size: 74
+problem size: 5000
+duration(ns/round): 8337258
+rounds: 10
+world size: 74
+problem size: 10000
+duration(ns/round): 17432251
+rounds: 10
+world size: 75
+problem size: 200
+duration(ns/round): 2432813
+rounds: 10
+world size: 75
+problem size: 1000
+duration(ns/round): 3172166
+rounds: 10
+world size: 75
+problem size: 5000
+duration(ns/round): 8524506
+rounds: 10
+world size: 75
+problem size: 10000
+duration(ns/round): 19092135
+rounds: 10
+world size: 76
+problem size: 200
+duration(ns/round): 2634099
+rounds: 10
+world size: 76
+problem size: 1000
+duration(ns/round): 2913339
+rounds: 10
+world size: 76
+problem size: 5000
+duration(ns/round): 8865329
+rounds: 10
+world size: 76
+problem size: 10000
+duration(ns/round): 20114970
+rounds: 10
+world size: 77
+problem size: 200
+duration(ns/round): 2506133
+rounds: 10
+world size: 77
+problem size: 1000
+duration(ns/round): 3410071
+rounds: 10
+world size: 77
+problem size: 5000
+duration(ns/round): 9643074
+rounds: 10
+world size: 77
+problem size: 10000
+duration(ns/round): 21996107
+rounds: 10
+world size: 78
+problem size: 200
+duration(ns/round): 2658499
+rounds: 10
+world size: 78
+problem size: 1000
+duration(ns/round): 3365179
+rounds: 10
+world size: 78
+problem size: 5000
+duration(ns/round): 6748882
+rounds: 10
+world size: 78
+problem size: 10000
+duration(ns/round): 17398807
+rounds: 10
+world size: 79
+problem size: 200
+duration(ns/round): 2550050
+rounds: 10
+world size: 79
+problem size: 1000
+duration(ns/round): 3261529
+rounds: 10
+world size: 79
+problem size: 5000
+duration(ns/round): 7756519
+rounds: 10
+world size: 79
+problem size: 10000
+duration(ns/round): 20500754
+rounds: 10
+world size: 80
+problem size: 200
+duration(ns/round): 2667049
+rounds: 10
+world size: 80
+problem size: 1000
+duration(ns/round): 3204942
+rounds: 10
+world size: 80
+problem size: 5000
+duration(ns/round): 8389243
+rounds: 10
+world size: 80
+problem size: 10000
+duration(ns/round): 16849208
+rounds: 10
+world size: 81
+problem size: 200
+duration(ns/round): 2536587
+rounds: 10
+world size: 81
+problem size: 1000
+duration(ns/round): 3143044
+rounds: 10
+world size: 81
+problem size: 5000
+duration(ns/round): 8725119
+rounds: 10
+world size: 81
+problem size: 10000
+duration(ns/round): 18858850
+rounds: 10
+world size: 82
+problem size: 200
+duration(ns/round): 2754963
+rounds: 10
+world size: 82
+problem size: 1000
+duration(ns/round): 3352132
+rounds: 10
+world size: 82
+problem size: 5000
+duration(ns/round): 9735735
+rounds: 10
+world size: 82
+problem size: 10000
+duration(ns/round): 22197066
+rounds: 10
+world size: 83
+problem size: 200
+duration(ns/round): 2894659
+rounds: 10
+world size: 83
+problem size: 1000
+duration(ns/round): 3363613
+rounds: 10
+world size: 83
+problem size: 5000
+duration(ns/round): 7522780
+rounds: 10
+world size: 83
+problem size: 10000
+duration(ns/round): 18896034
+rounds: 10
+world size: 84
+problem size: 200
+duration(ns/round): 2693354
+rounds: 10
+world size: 84
+problem size: 1000
+duration(ns/round): 3557149
+rounds: 10
+world size: 84
+problem size: 5000
+duration(ns/round): 8121171
+rounds: 10
+world size: 84
+problem size: 10000
+duration(ns/round): 15767364
+rounds: 10
+world size: 85
+problem size: 200
+duration(ns/round): 2745313
+rounds: 10
+world size: 85
+problem size: 1000
+duration(ns/round): 3558871
+rounds: 10
+world size: 85
+problem size: 5000
+duration(ns/round): 9312835
+rounds: 10
+world size: 85
+problem size: 10000
+duration(ns/round): 20441504
+rounds: 10
+world size: 86
+problem size: 200
+duration(ns/round): 2835609
+rounds: 10
+world size: 86
+problem size: 1000
+duration(ns/round): 3631645
+rounds: 10
+world size: 86
+problem size: 5000
+duration(ns/round): 7203765
+rounds: 10
+world size: 86
+problem size: 10000
+duration(ns/round): 17257053
+rounds: 10
+world size: 87
+problem size: 200
+duration(ns/round): 3111649
+rounds: 10
+world size: 87
+problem size: 1000
+duration(ns/round): 3678470
+rounds: 10
+world size: 87
+problem size: 5000
+duration(ns/round): 8229109
+rounds: 10
+world size: 87
+problem size: 10000
+duration(ns/round): 22714524
+rounds: 10
+world size: 88
+problem size: 200
+duration(ns/round): 3304432
+rounds: 10
+world size: 88
+problem size: 1000
+duration(ns/round): 3529271
+rounds: 10
+world size: 88
+problem size: 5000
+duration(ns/round): 9850171
+rounds: 10
+world size: 88
+problem size: 10000
+duration(ns/round): 19967170
+rounds: 10
+world size: 89
+problem size: 200
+duration(ns/round): 2797692
+rounds: 10
+world size: 89
+problem size: 1000
+duration(ns/round): 3249121
+rounds: 10
+world size: 89
+problem size: 5000
+duration(ns/round): 7298072
+rounds: 10
+world size: 89
+problem size: 10000
+duration(ns/round): 18557315
+rounds: 10
+world size: 90
+problem size: 200
+duration(ns/round): 2920943
+rounds: 10
+world size: 90
+problem size: 1000
+duration(ns/round): 3203818
+rounds: 10
+world size: 90
+problem size: 5000
+duration(ns/round): 9301100
+rounds: 10
+world size: 90
+problem size: 10000
+duration(ns/round): 15681224
+rounds: 10
+world size: 91
+problem size: 200
+duration(ns/round): 3130174
+rounds: 10
+world size: 91
+problem size: 1000
+duration(ns/round): 3921256
+rounds: 10
+world size: 91
+problem size: 5000
+duration(ns/round): 10043464
+rounds: 10
+world size: 91
+problem size: 10000
+duration(ns/round): 22406383
+rounds: 10
+world size: 92
+problem size: 200
+duration(ns/round): 3315130
+rounds: 10
+world size: 92
+problem size: 1000
+duration(ns/round): 3758064
+rounds: 10
+world size: 92
+problem size: 5000
+duration(ns/round): 8166807
+rounds: 10
+world size: 92
+problem size: 10000
+duration(ns/round): 20233348
+rounds: 10
+world size: 93
+problem size: 200
+duration(ns/round): 3187988
+rounds: 10
+world size: 93
+problem size: 1000
+duration(ns/round): 3871105
+rounds: 10
+world size: 93
+problem size: 5000
+duration(ns/round): 9474539
+rounds: 10
+world size: 93
+problem size: 10000
+duration(ns/round): 19340071
+rounds: 10
+world size: 94
+problem size: 200
+duration(ns/round): 3091816
+rounds: 10
+world size: 94
+problem size: 1000
+duration(ns/round): 4068675
+rounds: 10
+world size: 94
+problem size: 5000
+duration(ns/round): 7383828
+rounds: 10
+world size: 94
+problem size: 10000
+duration(ns/round): 18580499
+rounds: 10
+world size: 95
+problem size: 200
+duration(ns/round): 3253770
+rounds: 10
+world size: 95
+problem size: 1000
+duration(ns/round): 3882784
+rounds: 10
+world size: 95
+problem size: 5000
+duration(ns/round): 9205226
+rounds: 10
+world size: 95
+problem size: 10000
+duration(ns/round): 16609450
+rounds: 10
+world size: 96
+problem size: 200
+duration(ns/round): 3209032
+rounds: 10
+world size: 96
+problem size: 1000
+duration(ns/round): 3686201
+rounds: 10
+world size: 96
+problem size: 5000
+duration(ns/round): 6800425
+rounds: 10
+world size: 96
+problem size: 10000
+duration(ns/round): 16366293
+rounds: 10
+world size: 97
+problem size: 200
+duration(ns/round): 3405377
+rounds: 10
+world size: 97
+problem size: 1000
+duration(ns/round): 3608450
+rounds: 10
+world size: 97
+problem size: 5000
+duration(ns/round): 8781587
+rounds: 10
+world size: 97
+problem size: 10000
+duration(ns/round): 15164233
+rounds: 10
+world size: 98
+problem size: 200
+duration(ns/round): 3705749
+rounds: 10
+world size: 98
+problem size: 1000
+duration(ns/round): 3729966
+rounds: 10
+world size: 98
+problem size: 5000
+duration(ns/round): 7152016
+rounds: 10
+world size: 98
+problem size: 10000
+duration(ns/round): 14825038
+rounds: 10
+world size: 99
+problem size: 200
+duration(ns/round): 3532803
+rounds: 10
+world size: 99
+problem size: 1000
+duration(ns/round): 3508962
+rounds: 10
+world size: 99
+problem size: 5000
+duration(ns/round): 8666531
+rounds: 10
+world size: 99
+problem size: 10000
+duration(ns/round): 14624487
+rounds: 10
+world size: 100
+problem size: 200
+duration(ns/round): 3604914
+rounds: 10
+world size: 100
+problem size: 1000
+duration(ns/round): 3655410
+rounds: 10
+world size: 100
+problem size: 5000
+duration(ns/round): 6847379
+rounds: 10
+world size: 100
+problem size: 10000
+duration(ns/round): 14732361
+rounds: 10
+world size: 101
+problem size: 200
+duration(ns/round): 3386074
+rounds: 10
+world size: 101
+problem size: 1000
+duration(ns/round): 4349784
+rounds: 10
+world size: 101
+problem size: 5000
+duration(ns/round): 8710612
+rounds: 10
+world size: 101
+problem size: 10000
+duration(ns/round): 14619262
+rounds: 10
+world size: 102
+problem size: 200
+duration(ns/round): 3514442
+rounds: 10
+world size: 102
+problem size: 1000
+duration(ns/round): 4265492
+rounds: 10
+world size: 102
+problem size: 5000
+duration(ns/round): 6895791
+rounds: 10
+world size: 102
+problem size: 10000
+duration(ns/round): 15274259
+rounds: 10
+world size: 103
+problem size: 200
+duration(ns/round): 3521063
+rounds: 10
+world size: 103
+problem size: 1000
+duration(ns/round): 6701667
+rounds: 10
+world size: 103
+problem size: 5000
+duration(ns/round): 8913745
+rounds: 10
+world size: 103
+problem size: 10000
+duration(ns/round): 15474522
+rounds: 10
+world size: 104
+problem size: 200
+duration(ns/round): 3675056
+rounds: 10
+world size: 104
+problem size: 1000
+duration(ns/round): 4124161
+rounds: 10
+world size: 104
+problem size: 5000
+duration(ns/round): 6814357
+rounds: 10
+world size: 104
+problem size: 10000
+duration(ns/round): 16372501
+rounds: 10
+world size: 105
+problem size: 200
+duration(ns/round): 4067626
+rounds: 10
+world size: 105
+problem size: 1000
+duration(ns/round): 4183312
+rounds: 10
+world size: 105
+problem size: 5000
+duration(ns/round): 9341200
+rounds: 10
+world size: 105
+problem size: 10000
+duration(ns/round): 16105648
+rounds: 10
+world size: 106
+problem size: 200
+duration(ns/round): 3947685
+rounds: 10
+world size: 106
+problem size: 1000
+duration(ns/round): 4066389
+rounds: 10
+world size: 106
+problem size: 5000
+duration(ns/round): 7403063
+rounds: 10
+world size: 106
+problem size: 10000
+duration(ns/round): 17514898
+rounds: 10
+world size: 107
+problem size: 200
+duration(ns/round): 3698544
+rounds: 10
+world size: 107
+problem size: 1000
+duration(ns/round): 4135388
+rounds: 10
+world size: 107
+problem size: 5000
+duration(ns/round): 9877239
+rounds: 10
+world size: 107
+problem size: 10000
+duration(ns/round): 18172964
+rounds: 10
+world size: 108
+problem size: 200
+duration(ns/round): 3831424
+rounds: 10
+world size: 108
+problem size: 1000
+duration(ns/round): 4101527
+rounds: 10
+world size: 108
+problem size: 5000
+duration(ns/round): 7883643
+rounds: 10
+world size: 108
+problem size: 10000
+duration(ns/round): 19854391
+rounds: 10
+world size: 109
+problem size: 200
+duration(ns/round): 3881903
+rounds: 10
+world size: 109
+problem size: 1000
+duration(ns/round): 3998726
+rounds: 10
+world size: 109
+problem size: 5000
+duration(ns/round): 10670687
+rounds: 10
+world size: 109
+problem size: 10000
+duration(ns/round): 20778123
+rounds: 10
+world size: 110
+problem size: 200
+duration(ns/round): 3863764
+rounds: 10
+world size: 110
+problem size: 1000
+duration(ns/round): 4113456
+rounds: 10
+world size: 110
+problem size: 5000
+duration(ns/round): 8834427
+rounds: 10
+world size: 110
+problem size: 10000
+duration(ns/round): 22265103
+rounds: 10
+world size: 111
+problem size: 200
+duration(ns/round): 4048713
+rounds: 10
+world size: 111
+problem size: 1000
+duration(ns/round): 4007259
+rounds: 10
+world size: 111
+problem size: 5000
+duration(ns/round): 7018968
+rounds: 10
+world size: 111
+problem size: 10000
+duration(ns/round): 14752939
+rounds: 10
+world size: 112
+problem size: 200
+duration(ns/round): 4066168
+rounds: 10
+world size: 112
+problem size: 1000
+duration(ns/round): 4811671
+rounds: 10
+world size: 112
+problem size: 5000
+duration(ns/round): 10154118
+rounds: 10
+world size: 112
+problem size: 10000
+duration(ns/round): 16449367
+rounds: 10
+world size: 113
+problem size: 200
+duration(ns/round): 4108963
+rounds: 10
+world size: 113
+problem size: 1000
+duration(ns/round): 4825624
+rounds: 10
+world size: 113
+problem size: 5000
+duration(ns/round): 8220997
+rounds: 10
+world size: 113
+problem size: 10000
+duration(ns/round): 18479306
+rounds: 10
+world size: 114
+problem size: 200
+duration(ns/round): 4145822
+rounds: 10
+world size: 114
+problem size: 1000
+duration(ns/round): 4761941
+rounds: 10
+world size: 114
+problem size: 5000
+duration(ns/round): 11097260
+rounds: 10
+world size: 114
+problem size: 10000
+duration(ns/round): 21215499
+rounds: 10
+world size: 115
+problem size: 200
+duration(ns/round): 4506122
+rounds: 10
+world size: 115
+problem size: 1000
+duration(ns/round): 4721897
+rounds: 10
+world size: 115
+problem size: 5000
+duration(ns/round): 9085944
+rounds: 10
+world size: 115
+problem size: 10000
+duration(ns/round): 22938228
+rounds: 10
+world size: 116
+problem size: 200
+duration(ns/round): 4119294
+rounds: 10
+world size: 116
+problem size: 1000
+duration(ns/round): 4787731
+rounds: 10
+world size: 116
+problem size: 5000
+duration(ns/round): 7308941
+rounds: 10
+world size: 116
+problem size: 10000
+duration(ns/round): 15472134
+rounds: 10
+world size: 117
+problem size: 200
+duration(ns/round): 4256206
+rounds: 10
+world size: 117
+problem size: 1000
+duration(ns/round): 4559547
+rounds: 10
+world size: 117
+problem size: 5000
+duration(ns/round): 10876481
+rounds: 10
+world size: 117
+problem size: 10000
+duration(ns/round): 18395585
+rounds: 10
+world size: 118
+problem size: 200
+duration(ns/round): 4196749
+rounds: 10
+world size: 118
+problem size: 1000
+duration(ns/round): 4942757
+rounds: 10
+world size: 118
+problem size: 5000
+duration(ns/round): 8942790
+rounds: 10
+world size: 118
+problem size: 10000
+duration(ns/round): 20787878
+rounds: 10
+world size: 119
+problem size: 200
+duration(ns/round): 4407157
+rounds: 10
+world size: 119
+problem size: 1000
+duration(ns/round): 4438371
+rounds: 10
+world size: 119
+problem size: 5000
+duration(ns/round): 7075554
+rounds: 10
+world size: 119
+problem size: 10000
+duration(ns/round): 14055445
+rounds: 10
+world size: 120
+problem size: 200
+duration(ns/round): 4111124
+rounds: 10
+world size: 120
+problem size: 1000
+duration(ns/round): 4678703
+rounds: 10
+world size: 120
+problem size: 5000
+duration(ns/round): 10664534
+rounds: 10
+world size: 120
+problem size: 10000
+duration(ns/round): 17436395
+rounds: 10
+world size: 121
+problem size: 200
+duration(ns/round): 4477631
+rounds: 10
+world size: 121
+problem size: 1000
+duration(ns/round): 5255597
+rounds: 10
+world size: 121
+problem size: 5000
+duration(ns/round): 8691675
+rounds: 10
+world size: 121
+problem size: 10000
+duration(ns/round): 21131816
+rounds: 10
+world size: 122
+problem size: 200
+duration(ns/round): 5128820
+rounds: 10
+world size: 122
+problem size: 1000
+duration(ns/round): 4719578
+rounds: 10
+world size: 122
+problem size: 5000
+duration(ns/round): 13113942
+rounds: 10
+world size: 122
+problem size: 10000
+duration(ns/round): 23550137
+rounds: 10
+world size: 123
+problem size: 200
+duration(ns/round): 4395821
+rounds: 10
+world size: 123
+problem size: 1000
+duration(ns/round): 5309354
+rounds: 10
+world size: 123
+problem size: 5000
+duration(ns/round): 10311855
+rounds: 10
+world size: 123
+problem size: 10000
+duration(ns/round): 19129154
+rounds: 10
+world size: 124
+problem size: 200
+duration(ns/round): 5659177
+rounds: 10
+world size: 124
+problem size: 1000
+duration(ns/round): 5740022
+rounds: 10
+world size: 124
+problem size: 5000
+duration(ns/round): 9710445
+rounds: 10
+world size: 124
+problem size: 10000
+duration(ns/round): 20253765
+rounds: 10
+world size: 125
+problem size: 200
+duration(ns/round): 4501749
+rounds: 10
+world size: 125
+problem size: 1000
+duration(ns/round): 5064043
+rounds: 10
+world size: 125
+problem size: 5000
+duration(ns/round): 7840630
+rounds: 10
+world size: 125
+problem size: 10000
+duration(ns/round): 15079060
+rounds: 10
+world size: 126
+problem size: 200
+duration(ns/round): 5867170
+rounds: 10
+world size: 126
+problem size: 1000
+duration(ns/round): 16853175
+rounds: 10
+world size: 126
+problem size: 5000
+duration(ns/round): 11403934
+rounds: 10
+world size: 126
+problem size: 10000
+duration(ns/round): 18421920
+rounds: 10
+world size: 127
+problem size: 200
+duration(ns/round): 5032472
+rounds: 10
+world size: 127
+problem size: 1000
+duration(ns/round): 6009593
+rounds: 10
+world size: 127
+problem size: 5000
+duration(ns/round): 10508602
+rounds: 10
+world size: 127
+problem size: 10000
+duration(ns/round): 23412171
+rounds: 10
+world size: 128
+problem size: 200
+duration(ns/round): 5651263
+rounds: 10
+world size: 128
+problem size: 1000
+duration(ns/round): 16707390
+rounds: 10
+world size: 128
+problem size: 5000
+duration(ns/round): 9436090
+rounds: 10
+world size: 128
+problem size: 10000
+duration(ns/round): 15793381
+rounds: 10
