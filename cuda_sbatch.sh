@@ -10,7 +10,7 @@ mkdir -p ${dir}/logs
 prog="cuda"
 
 log="${dir}/logs/${prog}-${dt}.log"
-rounds=10
+rounds=1
 for thread in {1,2,4,8,16,32,64,128,256,512,1024}
 do
     for size in {200,1000,5000,10000}

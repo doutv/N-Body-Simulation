@@ -29,7 +29,6 @@ void schedule()
             pool.shared_memory_check_and_update(pool.get_body(i), pool.get_body(j), radius, gravity);
         }
     }
-#pragma omp barrier
 #pragma omp parallel for shared(pool)
     for (size_t i = 0; i < pool.size(); ++i)
     {
