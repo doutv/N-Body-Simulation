@@ -10,14 +10,9 @@ mkdir -p ${dir}/logs
 prog="openmp"
 rounds=1
 log="${dir}/logs/${prog}-${dt}.log"
-for thread in {1..64}
+for thread in {33..64}
 do
-    if (( $thread > 32 ))
-    then
-        realthread=32
-    else
-        realthread=thread
-    fi
+    realthread=32
     for size in {200,1000,5000,10000}
     do
         file="${dir}/tmp/${prog}-${size}-${thread}.sh"

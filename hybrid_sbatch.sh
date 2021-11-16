@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tag="cyclic"
+tag="block"
 dt=$(date '+%d-%m-%Y-%H:%M:%S')
 assignment="a3"
 dir="/pvfsmnt/119010115/${assignment}"
@@ -25,6 +25,6 @@ do
         echo "mpirun -n ${task} ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
         echo "sbatch file: ${file}"
         cat $file
-        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=${task} --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
+        sbatch --wait --account=csc4005 --partition=debug --qos=normal --ntasks=${task} --cpus-per-task=${thread} --output=$output $file
     done
 done
