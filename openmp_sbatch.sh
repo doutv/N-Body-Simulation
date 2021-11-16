@@ -8,10 +8,13 @@ mkdir -p ${dir}/tmp
 mkdir -p ${dir}/logs
 
 prog="openmp"
-rounds=10
+rounds=1
 log="${dir}/logs/${prog}-${dt}.log"
-for thread in {1..32}
+for thread in {1..64}
 do
+    if (( $thread > 32 )); then
+        thread=32
+    fi
     for size in {200,1000,5000,10000}
     do
         file="${dir}/tmp/${prog}-${size}-${thread}.sh"
