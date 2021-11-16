@@ -130,7 +130,6 @@ void worker(int rank, int world_size)
 int main(int argc, char **argv)
 {
     int rank, world_size;
-    const int rounds = 1000;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
@@ -138,7 +137,6 @@ int main(int argc, char **argv)
     static ImVec4 color = ImVec4(1.0f, 1.0f, 0.4f, 1.0f);
     if (rank == 0)
     {
-        int cur_rounds = 0;
         static float current_space = space;
         static float current_max_mass = max_mass;
         static int current_bodies = bodies;
@@ -177,18 +175,13 @@ int main(int argc, char **argv)
                                 auto y = p.y + static_cast<float>(body.get_y());
                                 draw_list->AddCircleFilled(ImVec2(x, y), radius, ImColor{color});
                             }
-                            ++cur_rounds;
-                            if (cur_rounds == rounds)
-                            {
-                                context->quit();
-                            }
                         }
                         ImGui::End();
                     });
     }
     else
     {
-        for (int i = 0; i < rounds; i++)
+        while (1)
         {
             worker(rank, world_size);
         }

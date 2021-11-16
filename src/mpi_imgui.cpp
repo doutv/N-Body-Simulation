@@ -135,13 +135,13 @@ int main(int argc, char **argv)
         static float current_space = space;
         static float current_max_mass = max_mass;
         static int current_bodies = bodies;
-        graphic::GraphicContext context{"Assignment 2"};
+        graphic::GraphicContext context{"Assignment 3"};
         context.run([&](graphic::GraphicContext *context [[maybe_unused]], SDL_Window *)
                     {
                         auto io = ImGui::GetIO();
                         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
                         ImGui::SetNextWindowSize(io.DisplaySize);
-                        ImGui::Begin("Assignment 2", nullptr,
+                        ImGui::Begin("Assignment 3", nullptr,
                                      ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
                         ImDrawList *draw_list = ImGui::GetWindowDrawList();
                         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
