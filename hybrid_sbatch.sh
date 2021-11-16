@@ -12,12 +12,9 @@ prog="hybrid"
 
 log="${dir}/logs/${prog}-${tag}-${dt}.log"
 rounds=1
-for task in {1,2,4,8,16,32,64,128}
+task=4
+for thread in {1..32}
 do
-    thread=$((128 / task))
-    if (( $thread > 32 )); then
-        thread=32
-    fi
     for size in {200,1000,5000,10000}
     do
         file="${dir}/tmp/${prog}-${size}-${task}-${thread}.sh"
@@ -28,6 +25,6 @@ do
         echo "mpirun -n ${task} ${dir}/build/${prog} ${size} ${rounds} ${thread} >> ${log}" >> $file
         echo "sbatch file: ${file}"
         cat $file
-        sbatch --wait --account=csc4005 --partition=debug --qos=normal --ntasks=${task} --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
+        sbatch --wait --account=csc4005 --partition=debug --qos=normal --nodes=4 --ntasks=${task} --cpus-per-task=${thread} --output=$output --distribution=${tag} $file
     done
 done
