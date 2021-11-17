@@ -42,6 +42,13 @@ The design of sequential version and parallel version differs a little.
 This slight difference results in different movements of the bodies in visualization.
 
 # Implementations
+There are 6 different implementations:
+- Sequential
+- MPI
+- Pthread
+- OpenMP
+- CUDA
+- Hybrid MPI and OpenMP
 ## Sequential Implementation
 This sequential implementation is given by teaching assistants.  
 
@@ -394,7 +401,7 @@ In Figure 2, for those process numbers greater than $1$, as problem size increas
 | Figure 3: MPI Speedup with Problem Size $200$ |  Figure 4: MPI Duration with Problem Size $200$   |
 
 
-In Figure 3 and Figure 4, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6\mu s$), the startup time and the inter-process communication time are relatively large compared to the computation time.
+In Figure 3 and Figure 4, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6e6ns$), the startup time and the inter-process communication time are relatively large compared to the computation time.
 
 |   ![Figure 5](mpiproblemsize1000speedup.png)   |
 | :--------------------------------------------: |
@@ -537,12 +544,26 @@ The above 4 figures show that when the problem size is $200$ and $1000$, the dur
 
 The above 4 figures show that when the problem size is large, the duration first down and up and finally down, and the speedup is larger than that when the problem size is small. 
 
-It is interesting to see that for all problem sizes, there is a peak in duration VS. problem size figure, and this peak occurs when the thread number is about $16$. Since the total number of physical threads is $64$ with $4$ MPI processes, the physical resources are used up when the OpenMp thread number is greater than $16$. Thus, this finding can be interpreted as the following:
+It is interesting to see that for all problem sizes, there is a peak in duration VS. problem size figure, and this peak occurs when the thread number is about $16$. Since the total number of physical threads is $64$ with $4$ MPI processes, the physical resources are used up when the OpenMP thread number is greater than $16$. Thus, this finding can be interpreted as the following:
 1. Before fully utilizing the physical resources, more OpenMP threads bring worse performance.
 2. After fully utilizing the physical resources, more OpenMP threads bring better performance.
 
-I think one of the possible reasons is that 
 ## Comparisons
+It's easy to compare the speedup of different implementations. MPI and CUDA have close maximum speedup(up to $60$) and they are much higher than others. Pthread and OpenMp share similar speedup pattern and their speedup are both small(less than $2$). While Hybrid lies between these two groups.
+
+| ![Figure 1](mpiSpeedupOverview.png) | ![Figure 2](cudaSpeedupOverview.png) |
+| :---------------------------------: | :----------------------------------: |
+|   Figure 1: MPI Speedup Overview    |   Figure 2: CUDA Speedup Overview    |
+
+| ![Figure 3](pthreadSpeedupOverview.png) | ![Figure 4](openmpSpeedupOverview.png) |
+| :-------------------------------------: | :------------------------------------: |
+|   Figure 3: Pthread Speedup Overview    |   Figure 4: OpenMP Speedup Overview    |
+
+| ![Figure 5](hybridSpeedupOverview.png) |
+| :------------------------------------: |
+|   Figure 5: Hybrid Speedup Overview    |
+
+When it comes to the duration, 
 
 # Conclusion
 After working out this assignment, I have learned to write OpenMP, CUDA, and hybrid MPI and OpenMP programs. Different implementations of parallel programming bring different programming experiences. It enables me to think deeply about the pros and cons of each implementation. OpenMP is definitely the easiest one to write. Pthread and CUDA are two shared memory models using CPU and GPU, respectively. MPI presents the highest performance.
