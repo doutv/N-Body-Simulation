@@ -327,65 +327,55 @@ The performance of the program is analyzed from the following three dimensions:
 
 ## MPI
 
-| ![Figure 6](mpiSpeedupOverview.png) |
+| ![Figure 1](mpiSpeedupOverview.png) |
 | :---------------------------------: |
-|   Figure 6: MPI Duration Overview   |
+|   Figure 1: MPI Duration Overview   |
 
-In Figure 6, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the MPI version. As problem size increases, the gap becomes even larger.
+In Figure 1, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the MPI version. As problem size increases, the gap becomes even larger.
 
 
-| ![Figure 7](mpiSpeedupOverview.png) |
+| ![Figure 2](mpiSpeedupOverview.png) |
 | :---------------------------------: |
-|   Figure 7: MPI Speedup Overview    |
+|   Figure 2: MPI Speedup Overview    |
 
-In Figure 7, for those process numbers greater than $1$, as problem size increases, the speedup also increases. The larger the process number, the faster the growth (bigger slope). 
+In Figure 2, for those process numbers greater than $1$, as problem size increases, the speedup also increases. The larger the process number, the faster the growth (bigger slope). 
 
-|   ![Figure 8](mpiproblemsize200speedup.png)   |
+|   ![Figure 3](mpiproblemsize200speedup.png)   |
 | :-------------------------------------------: |
-| Figure 8: MPI Speedup with Problem Size $200$ |
+| Figure 3: MPI Speedup with Problem Size $200$ |
 
-| ![Figure 9](mpiproblemsize200durationnsround.png) |
+| ![Figure 4](mpiproblemsize200durationnsround.png) |
 | :-----------------------------------------------: |
-|  Figure 9: MPI Duration with Problem Size $200$   |
+|  Figure 4: MPI Duration with Problem Size $200$   |
 
-In Figure 8 and Figure 9, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6\mu s$), the startup time and the inter-process communication time are relatively large compared to the computation time.
+In Figure 3 and Figure 4, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6\mu s$), the startup time and the inter-process communication time are relatively large compared to the computation time.
 
-|   ![Figure 10](mpiproblemsize1000speedup.png)   |
+|   ![Figure 5](mpiproblemsize1000speedup.png)   |
+| :--------------------------------------------: |
+| Figure 5: MPI Speedup with Problem Size $1000$ |
+
+In Figure 5, initially, the speedup first increases with the process number. When the process number reaches about $10$, the speedup starts to fluctuate up and down in a slow downward trend. I think the reason is the same as above.
+
+|   ![Figure 6](mpiproblemsize5000speedup.png)   |
+| :--------------------------------------------: |
+| Figure 6: MPI Speedup with Problem Size $5000$ |
+
+|   ![Figure 7](mpiproblemsize10000speedup.png)   |
 | :---------------------------------------------: |
-| Figure 10: MPI Speedup with Problem Size $1000$ |
+| Figure 7: MPI Speedup with Problem Size $10000$ |
 
-In Figure 10, initially, the speedup first increases with the process number. When the process number reaches about $10$, the speedup starts to fluctuate up and down in a slow downward trend. I think the reason is the same as above.
-
-|   ![Figure 11](mpiproblemsize5000speedup.png)   |
-| :---------------------------------------------: |
-| Figure 11: MPI Speedup with Problem Size $5000$ |
-
-|   ![Figure 12](mpiproblemsize10000speedup.png)   |
-| :----------------------------------------------: |
-| Figure 12: MPI Speedup with Problem Size $10000$ |
-
-In Figure 11 and Figure 12, the speedup keeps increasing with the process number. Compared to Figure 11, Figure 12 has a more significant speedup under the same process number. That's because the computation work is more extensive.
+In Figure 6 and Figure 7, the speedup keeps increasing with the process number. Compared to Figure 6, Figure 7 has a more significant speedup under the same process number. That's because the computation work is more extensive.
 ## Pthread
-For Pthread, the thread number increases from $1$ to $32$, each time by $1$, since Pthread requires shared memory and on a single node, there are only $32$ physical threads available.
-| ![Figure 10](pthread-duration-overview.png) | ![Figure 11](mpi-duration-overview-compare.png) |
-| :-----------------------------------------: | :---------------------------------------------: |
-|    Figure 10: Pthread Duration Overview     |   Figure 11: MPI Duration Overview Comparison   |
+For Pthread, the thread number increases from $1$ to $54$, each time by $1$. Pthread requires shared memory and on a single node, there are only $32$ physical threads available. 
+| ![Figure 1](pthreadDurationOverview.png) | ![Figure 2](pthreadSpeedupOverview.png) |
+| :--------------------------------------: | :-------------------------------------: |
+|   Figure 1: Pthread Duration Overview    |   Figure 2: Pthread Speedup Overview    |
 
-In Figure 10, the large gap between the blue curve and the orange curve shows that the sequential version is much more slower than the Pthread version. As problem size increases, the gap becomes even larger.  
-Compared to MPI version, pthread version shares similar results.
-| ![Figure 12](pthread-speedup-overview.png) | ![Figure 13](mpi-speedup-overview-compare.png) |
-| :----------------------------------------: | :--------------------------------------------: |
-|    Figure 12: Pthread Speedup Overview     |   Figure 13: MPI Speedup Overview Comparison   |
+Figure 1 and Figure 2 show that more threads do not bring better performance.
 
-In Figure 12, for those thread number greater than $1$, as problem size increases, the speedup also increases. The larger the thread number, the faster the growth (bigger slope).   
-Compared to MPI version, the slope of the curve and the speedup is much smaller.
-| ![Figure 14](pthread-speed-overview.png) | ![Figure 15](mpi-speed-overview-compare.png) |
-| :--------------------------------------: | :------------------------------------------: |
-|    Figure 14: Pthread Speed Overview     |   Figure 15: MPI Speed Overview Comparison   |
-
-In Figure 14, it can be noticed that greater thread number brings faster speed. As the problem size increases, the speed decreases for all thread numbers.  
-Compared to the MPI version, the speed is much smaller.
-
+| ![Figure 1](pthreadDurationOverview.png) | ![Figure 2](pthreadSpeedupOverview.png) |
+| :--------------------------------------: | :-------------------------------------: |
+|   Figure 1: Pthread Duration Overview    |   Figure 2: Pthread Speedup Overview    |
 ## CUDA
 For CUDA, it is tested on GTX2080Ti with maximum $1024$ threads per block.
 | ![Figure 6](cudaDurationOverview.png) |
