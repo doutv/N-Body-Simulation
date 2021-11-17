@@ -563,8 +563,18 @@ It's easy to compare the speedup of different implementations. MPI and CUDA have
 | :------------------------------------: |
 |   Figure 5: Hybrid Speedup Overview    |
 
-When it comes to the duration, 
 
+The image of duration VS. problem size of 5 implementations are listed as followed.
+|           ![Figure 6](mpiDurationOverview32.png)           |          ![Figure 7](cudaDurationOverview32.png)           |
+| :--------------------------------------------------------: | :--------------------------------------------------------: |
+| Figure 6: MPI Duration Overview (Process Number $\geq 32$) | Figure 7: CUDA Duration Overview (Thread Number $\geq 32$) |
+
+| ![Figure 8](pthreadDurationOverview.png) | ![Figure 9](openmpDurationOverview.png) |          ![Figure 10](hybridDurationOverview4.png)           |
+| :--------------------------------------: | :-------------------------------------: | :----------------------------------------------------------: |
+|   Figure 8: Pthread Duration Overview    |   Figure 9: OpenMP Duration Overview    | Figure 10: OpenMP Duration Overview (Thread Number $\geq 4$) |
+
+By looking at the y-axis indexing value, their duration can be easily compared. The relationship between them in terms of duration size is approximately as follows:
+$$ CUDA > MPI \approx Hybrid > Pthread \approx  OpenMP $$
 # Conclusion
 After working out this assignment, I have learned to write OpenMP, CUDA, and hybrid MPI and OpenMP programs. Different implementations of parallel programming bring different programming experiences. It enables me to think deeply about the pros and cons of each implementation. OpenMP is definitely the easiest one to write. Pthread and CUDA are two shared memory models using CPU and GPU, respectively. MPI presents the highest performance.
 # References
