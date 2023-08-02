@@ -77,7 +77,7 @@ void update_for_tick(double elapse,
 ```
 
 ## MPI Implementation
-| ![Figure 1](report/mpi-implementation.png) |
+| ![Figure 1](./report/mpi-implementation.png) |
 | :---------------------------------: |
 |    Figure 1: MPI Implementation     |
 
@@ -122,7 +122,7 @@ void worker(int rank, int world_size)
 
 
 ## Pthread Implementation
-| ![Figure 2](report/pthread-implementation.png) |
+| ![Figure 2](./report/pthread-implementation.png) |
 | :-------------------------------------: |
 |    Figure 2: Pthread Implementation     |
 
@@ -183,7 +183,7 @@ void *worker(void *data)
 }
 ```
 ## OpenMP Implementation
-| ![Figure 3](report/openmp-implementation.png) |
+| ![Figure 3](./report/openmp-implementation.png) |
 | :------------------------------------: |
 |    Figure 3: OpenMP Implementation     |
 
@@ -218,7 +218,7 @@ void schedule()
 }
 ```
 ## CUDA Implementation
-| ![Figure 4](report/cuda-implementation.png) |
+| ![Figure 4](./report/cuda-implementation.png) |
 | :----------------------------------: |
 |    Figure 4: CUDA Implementation     |
 
@@ -301,14 +301,14 @@ int main()
 }
 ```
 ## Hybrid Implementation
-|     ![Figure 5](report/hybrid-implementation.png)     |
+|     ![Figure 5](./report/hybrid-implementation.png)     |
 | :--------------------------------------------: |
 | Figure 5: Hybrid MPI and OpenMP Implementation |
 
 Hybrid implementation is just adding some OpenMP pragma to the MPI implementation to parallel to Part One and Part Two calculations.
 
 In fact, this kind of hybrid implementation is called Hybrid MPI+OpenMP Master-Only Style. This is easy to implement without topology problems. However, it is not that efficient since all other threads are sleeping while the master thread communicates.
-|           ![Figure 6](report/hybrid.png)            |
+|           ![Figure 6](./report/hybrid.png)            |
 | :------------------------------------------: |
 | Figure 6: Hybrid MPI and OpenMP Architecture |
 
@@ -378,37 +378,40 @@ Four different problem sizes ranging from $200$, $1000$, $5000$, and $10000$ are
 
 The performance of the program is analyzed from the following three dimensions:
 - Duration in nanoseconds(ns) per time step
-- Speedup $Speedup_n = \frac{T_1}{T_n}$ where $T_1$ is the execution time on one process and $T_n$ is the execution time on $n$ processes.
+- Speedup 
+$$Speedup_n = \frac{T_1}{T_n} $$ 
+where $T_1$ is the execution time on one process and $T_n$ is the execution time on $n$ processes.
 
 ## MPI
 
-| ![Figure 1](report/mpiSpeedupOverview.png) |
+| ![Figure 1](./report/mpiDurationOverview.png) |
 | :---------------------------------: |
 |   Figure 1: MPI Duration Overview   |
 
 In Figure 1, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the MPI version. As problem size increases, the gap becomes even larger.
 
 
-| ![Figure 2](report/mpiSpeedupOverview.png) |
+| ![Figure 2](./report/mpiSpeedupOverview.png) |
 | :---------------------------------: |
 |   Figure 2: MPI Speedup Overview    |
 
 In Figure 2, for those process numbers greater than $1$, as problem size increases, the speedup also increases. The larger the process number, the faster the growth (bigger slope). 
 
-|   ![Figure 3](report/mpiproblemsize200speedup.png)   | ![Figure 4](report/mpiproblemsize200durationnsround.png) |
+|   ![Figure 3](./report/mpiproblemsize200speedup.png)   | ![Figure 4](./report/mpiproblemsize200durationnsround.png) |
 | :-------------------------------------------: | :-----------------------------------------------: |
 | Figure 3: MPI Speedup with Problem Size $200$ |  Figure 4: MPI Duration with Problem Size $200$   |
 
+> world size = process number
 
-In Figure 3 and Figure 4, as problem size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6e6ns$), the startup time and the inter-process communication time are relatively large compared to the computation time.
+In Figure 3 and Figure 4, as world size increases, the speedup decreases, and the duration increases. The possible reason is that the computation time of each process is short, and the inter-process communication time becomes the determining factor. Since the duration is so small(less than $6e6ns$), the startup time and the inter-process communication time are relatively large compared to the computation time.
 
-|   ![Figure 5](report/mpiproblemsize1000speedup.png)   |
+|   ![Figure 5](./report/mpiproblemsize1000speedup.png)   |
 | :--------------------------------------------: |
 | Figure 5: MPI Speedup with Problem Size $1000$ |
 
 In Figure 5, initially, the speedup first increases with the process number. When the process number reaches about $10$, the speedup starts to fluctuate up and down in a slow downward trend. I think the reason is the same as above.
 
-|   ![Figure 6](report/mpiproblemsize5000speedup.png)   |   ![Figure 7](report/mpiproblemsize10000speedup.png)   |
+|   ![Figure 6](./report/mpiproblemsize5000speedup.png)   |   ![Figure 7](./report/mpiproblemsize10000speedup.png)   |
 | :--------------------------------------------: | :---------------------------------------------: |
 | Figure 6: MPI Speedup with Problem Size $5000$ | Figure 7: MPI Speedup with Problem Size $10000$ |
 
@@ -416,25 +419,25 @@ In Figure 5, initially, the speedup first increases with the process number. Whe
 In Figure 6 and Figure 7, the speedup keeps increasing with the process number. Compared to Figure 6, Figure 7 has a more significant speedup under the same process number. That's because the computation work is more extensive.
 ## Pthread
 For Pthread, the thread number increases from $1$ to $54$, each time by $1$. Pthread requires shared memory and on a single node, and there are only $32$ physical threads on a node.
-| ![Figure 1](report/pthreadDurationOverview.png) | ![Figure 2](report/pthreadSpeedupOverview.png) |
+| ![Figure 1](./report/pthreadDurationOverview.png) | ![Figure 2](./report/pthreadSpeedupOverview.png) |
 | :--------------------------------------: | :-------------------------------------: |
 |   Figure 1: Pthread Duration Overview    |   Figure 2: Pthread Speedup Overview    |
 
 Figure 1 and Figure 2 show that more threads do not bring better performance. Most thread numbers run slower than the sequential version($1$ thread).
 
-| ![Figure 3](report/pthreadproblemsize200durationnsround.png) |   ![Figure 4](report/pthreadproblemsize200speedup.png)   |
+| ![Figure 3](./report/pthreadproblemsize200durationnsround.png) |   ![Figure 4](./report/pthreadproblemsize200speedup.png)   |
 | :---------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 3: Pthread Duration with Problem Size $200$   | Figure 4: Pthread Speedup with Problem Size $200$ |
 
-| ![Figure 5](report/pthreadproblemsize1000durationnsround.png) |   ![Figure 6](report/pthreadproblemsize1000speedup.png)   |
+| ![Figure 5](./report/pthreadproblemsize1000durationnsround.png) |   ![Figure 6](./report/pthreadproblemsize1000speedup.png)   |
 | :----------------------------------------------------: | :------------------------------------------------: |
 |  Figure 5: Pthread Duration with Problem Size $1000$   | Figure 6: Pthread Speedup with Problem Size $1000$ |
 
-| ![Figure 7](report/pthreadproblemsize5000durationnsround.png) |   ![Figure 8](report/pthreadproblemsize5000speedup.png)   |
+| ![Figure 7](./report/pthreadproblemsize5000durationnsround.png) |   ![Figure 8](./report/pthreadproblemsize5000speedup.png)   |
 | :----------------------------------------------------: | :------------------------------------------------: |
 |  Figure 7: Pthread Duration with Problem Size $5000$   | Figure 8: Pthread Speedup with Problem Size $5000$ |
 
-| ![Figure 9](report/pthreadproblemsize10000durationnsround.png) |   ![Figure 10](report/pthreadproblemsize10000speedup.png)   |
+| ![Figure 9](./report/pthreadproblemsize10000durationnsround.png) |   ![Figure 10](./report/pthreadproblemsize10000speedup.png)   |
 | :-----------------------------------------------------: | :--------------------------------------------------: |
 |  Figure 9: Pthread Duration with Problem Size $10000$   | Figure 10: Pthread Speedup with Problem Size $10000$ |
 
@@ -449,25 +452,25 @@ When the thread number is bigger than $32$, the duration continues to increase w
 ## OpenMP
 For OpenMP, the thread number increases from $1$ to $54$, each time by $1$. OpenMP requires shared memory and on a single node, and there are only $32$ physical threads on a node.
 
-| ![Figure 1](report/openmpDurationOverview.png) | ![Figure 2](report/openmpSpeedupOverview.png) |
+| ![Figure 1](./report/openmpDurationOverview.png) | ![Figure 2](./report/openmpSpeedupOverview.png) |
 | :-------------------------------------: | :------------------------------------: |
 |   Figure 1: OpenMP Duration Overview    |   Figure 2: OpenMP Speedup Overview    |
 
 Figure 1 and Figure 2 show that more threads do not bring better performance. Most thread numbers run slower than the sequential version($1$ thread).
 
-| ![Figure 3](report/openmpproblemsize200durationnsround.png) |   ![Figure 4](report/openmpproblemsize200speedup.png)   |
+| ![Figure 3](./report/openmpproblemsize200durationnsround.png) |   ![Figure 4](./report/openmpproblemsize200speedup.png)   |
 | :--------------------------------------------------: | :----------------------------------------------: |
 |  Figure 3: OpenMP Duration with Problem Size $200$   | Figure 4: OpenMP Speedup with Problem Size $200$ |
 
-| ![Figure 5](report/openmpproblemsize1000durationnsround.png) |   ![Figure 6](report/openmpproblemsize1000speedup.png)   |
+| ![Figure 5](./report/openmpproblemsize1000durationnsround.png) |   ![Figure 6](./report/openmpproblemsize1000speedup.png)   |
 | :---------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 5: OpenMP Duration with Problem Size $1000$   | Figure 6: OpenMP Speedup with Problem Size $1000$ |
 
-| ![Figure 7](report/openmpproblemsize5000durationnsround.png) |   ![Figure 8](report/openmpproblemsize5000speedup.png)   |
+| ![Figure 7](./report/openmpproblemsize5000durationnsround.png) |   ![Figure 8](./report/openmpproblemsize5000speedup.png)   |
 | :---------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 7: OpenMP Duration with Problem Size $5000$   | Figure 8: OpenMP Speedup with Problem Size $5000$ |
 
-| ![Figure 9](report/openmpproblemsize10000durationnsround.png) |   ![Figure 10](report/openmpproblemsize10000speedup.png)   |
+| ![Figure 9](./report/openmpproblemsize10000durationnsround.png) |   ![Figure 10](./report/openmpproblemsize10000speedup.png)   |
 | :----------------------------------------------------: | :-------------------------------------------------: |
 |  Figure 9: OpenMP Duration with Problem Size $10000$   | Figure 10: OpenMP Speedup with Problem Size $10000$ |
 
@@ -478,13 +481,13 @@ The above 8 figures show similar results with the Pthread implementation as the 
 The reason for this result is the same as the Pthread implementation. Because the overall duration is small and thread scheduling is the determining factor.
 ## CUDA
 For CUDA, it tests on GTX2080Ti with maximum $1024$ threads per block.
-| ![Figure 1](report/cudaDurationOverview.png) |
+| ![Figure 1](./report/cudaDurationOverview.png) |
 | :-----------------------------------: |
 |   Figure 1: CUDA Duration Overview    |
 
 In Figure 1, the large gap between the blue curve and the other curves shows that the sequential version is much slower than the CUDA version. As problem size increases, the gap becomes even larger.
 
-| ![Figure 2](report/cudaSpeedupOverview.png) |
+| ![Figure 2](./report/cudaSpeedupOverview.png) |
 | :----------------------------------: |
 |   Figure 2: CUDA Speedup Overview    |
 
@@ -496,20 +499,20 @@ It is interesting to point out that when the thread number is $1024$, which is t
 
 
 
-| ![Figure 3](report/cudaproblemsize200durationnsround.png) |   ![Figure 4](report/cudaproblemsize200speedup.png)   |
+| ![Figure 3](./report/cudaproblemsize200durationnsround.png) |   ![Figure 4](./report/cudaproblemsize200speedup.png)   |
 | :------------------------------------------------: | :--------------------------------------------: |
 |  Figure 3: CUDA Duration with Problem Size $200$   | Figure 4: CUDA Speedup with Problem Size $200$ |
 
 
-| ![Figure 5](report/cudaproblemsize1000durationnsround.png) |   ![Figure 6](report/cudaproblemsize1000speedup.png)   |
+| ![Figure 5](./report/cudaproblemsize1000durationnsround.png) |   ![Figure 6](./report/cudaproblemsize1000speedup.png)   |
 | :-------------------------------------------------: | :---------------------------------------------: |
 |  Figure 5: CUDA Duration with Problem Size $1000$   | Figure 6: CUDA Speedup with Problem Size $1000$ |
 
-| ![Figure 7](report/cudaproblemsize5000durationnsround.png) |   ![Figure 8](report/cudaproblemsize5000speedup.png)   |
+| ![Figure 7](./report/cudaproblemsize5000durationnsround.png) |   ![Figure 8](./report/cudaproblemsize5000speedup.png)   |
 | :-------------------------------------------------: | :---------------------------------------------: |
 |  Figure 7: CUDA Duration with Problem Size $5000$   | Figure 8: CUDA Speedup with Problem Size $5000$ |
 
-| ![Figure 9](report/cudaproblemsize10000durationnsround.png) |   ![Figure 10](report/cudaproblemsize10000speedup.png)   |
+| ![Figure 9](./report/cudaproblemsize10000durationnsround.png) |   ![Figure 10](./report/cudaproblemsize10000speedup.png)   |
 | :--------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 9: CUDA Duration with Problem Size $10000$   | Figure 10: CUDA Speedup with Problem Size $10000$ |
 
@@ -518,26 +521,26 @@ In the above figures, as problem size increases, the speedup first increases, th
 ## Hybrid
 For Hybrid, the MPI process number is fixed as $4$, and the OpenMP thread number increases from $1$ to $32$, each time by $1$. The physical resources is $2$ nodes with total $64$ threads.
 
-| ![Figure 1](report/hybridDurationOverview.png) | ![Figure 2](report/hybridSpeedupOverview.png) |
+| ![Figure 1](./report/hybridDurationOverview.png) | ![Figure 2](./report/hybridSpeedupOverview.png) |
 | :-------------------------------------: | :------------------------------------: |
 |   Figure 1: Hybrid Duration Overview    |   Figure 2: Hybrid Speedup Overview    |
 
 Figure 1 and Figure 2 show that more threads bring more speedup and less duration.
 
-| ![Figure 3](report/hybridproblemsize200durationnsround.png) |   ![Figure 4](report/hybridproblemsize200speedup.png)   |
+| ![Figure 3](./report/hybridproblemsize200durationnsround.png) |   ![Figure 4](./report/hybridproblemsize200speedup.png)   |
 | :--------------------------------------------------: | :----------------------------------------------: |
 |  Figure 3: Hybrid Duration with Problem Size $200$   | Figure 4: Hybrid Speedup with Problem Size $200$ |
 
-| ![Figure 5](report/hybridproblemsize1000durationnsround.png) |   ![Figure 6](report/hybridproblemsize1000speedup.png)   |
+| ![Figure 5](./report/hybridproblemsize1000durationnsround.png) |   ![Figure 6](./report/hybridproblemsize1000speedup.png)   |
 | :---------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 5: Hybrid Duration with Problem Size $1000$   | Figure 6: Hybrid Speedup with Problem Size $1000$ |
 
 The above 4 figures show that when the problem size is $200$ and $1000$, the duration first up then down, and the speedup is little. The little speedup can be explained by the small computation workload and the relatively large thread scheduling workload.
-| ![Figure 7](report/hybridproblemsize5000durationnsround.png) |   ![Figure 8](report/hybridproblemsize5000speedup.png)   |
+| ![Figure 7](./report/hybridproblemsize5000durationnsround.png) |   ![Figure 8](./report/hybridproblemsize5000speedup.png)   |
 | :---------------------------------------------------: | :-----------------------------------------------: |
 |  Figure 7: Hybrid Duration with Problem Size $5000$   | Figure 8: Hybrid Speedup with Problem Size $5000$ |
 
-| ![Figure 9](report/hybridproblemsize10000durationnsround.png) |   ![Figure 10](report/hybridproblemsize10000speedup.png)   |
+| ![Figure 9](./report/hybridproblemsize10000durationnsround.png) |   ![Figure 10](./report/hybridproblemsize10000speedup.png)   |
 | :----------------------------------------------------: | :-------------------------------------------------: |
 |  Figure 9: Hybrid Duration with Problem Size $10000$   | Figure 10: Hybrid Speedup with Problem Size $10000$ |
 
@@ -550,25 +553,25 @@ It is interesting to see that for all problem sizes, there is a peak in duration
 ## Comparisons
 It's easy to compare the speedup of different implementations. MPI and CUDA have close maximum speedup(up to $60$) and they are much higher than others. Pthread and OpenMp share similar speedup pattern and their speedup are both small(less than $2$). While Hybrid lies between these two groups.
 
-| ![Figure 1](report/mpiSpeedupOverview.png) | ![Figure 2](report/cudaSpeedupOverview.png) |
+| ![Figure 1](./report/mpiSpeedupOverview.png) | ![Figure 2](./report/cudaSpeedupOverview.png) |
 | :---------------------------------: | :----------------------------------: |
 |   Figure 1: MPI Speedup Overview    |   Figure 2: CUDA Speedup Overview    |
 
-| ![Figure 3](report/pthreadSpeedupOverview.png) | ![Figure 4](report/openmpSpeedupOverview.png) |
+| ![Figure 3](./report/pthreadSpeedupOverview.png) | ![Figure 4](./report/openmpSpeedupOverview.png) |
 | :-------------------------------------: | :------------------------------------: |
 |   Figure 3: Pthread Speedup Overview    |   Figure 4: OpenMP Speedup Overview    |
 
-| ![Figure 5](report/hybridSpeedupOverview.png) |
+| ![Figure 5](./report/hybridSpeedupOverview.png) |
 | :------------------------------------: |
 |   Figure 5: Hybrid Speedup Overview    |
 
 
 The image of duration VS. problem size of 5 implementations are listed as followed.
-|           ![Figure 6](report/mpiDurationOverview32.png)           |          ![Figure 7](report/cudaDurationOverview32.png)           |
+|           ![Figure 6](./report/mpiDurationOverview32.png)           |          ![Figure 7](./report/cudaDurationOverview32.png)           |
 | :--------------------------------------------------------: | :--------------------------------------------------------: |
 | Figure 6: MPI Duration Overview (Process Number $\geq 32$) | Figure 7: CUDA Duration Overview (Thread Number $\geq 32$) |
 
-| ![Figure 8](report/pthreadDurationOverview.png) | ![Figure 9](report/openmpDurationOverview.png) |          ![Figure 10](report/hybridDurationOverview4.png)           |
+| ![Figure 8](./report/pthreadDurationOverview.png) | ![Figure 9](./report/openmpDurationOverview.png) |          ![Figure 10](./report/hybridDurationOverview4.png)           |
 | :--------------------------------------: | :-------------------------------------: | :----------------------------------------------------------: |
 |   Figure 8: Pthread Duration Overview    |   Figure 9: OpenMP Duration Overview    | Figure 10: OpenMP Duration Overview (Thread Number $\geq 4$) |
 
