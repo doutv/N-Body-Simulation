@@ -1,5 +1,7 @@
 # N-Body Simulation
 
+**See [report](./report.pdf) for details**
+
 # Execution
 ## Build
 ```sh
